@@ -4,6 +4,7 @@ using FutureNHS.Api.Configuration;
 using GPConnect.Provider.AcceptanceTests.Constants;
 using GPConnect.Provider.AcceptanceTests.Helpers;
 using GPConnect.Provider.AcceptanceTests.Http;
+using GPMigratorApp.GPConnect.Profiles;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Serialization;
 
@@ -55,6 +56,7 @@ public class GPConnectService : IGPConnectService
                         {HttpConst.Headers.kSspInteractionId, "urn:nhs:names:services:gpconnect:fhir:operation:gpc.getstructuredrecord-1"},
                     },
                     Content = json,
+                    
                 };
 
                 httpRequestMessage.Content.Headers.ContentType = new MediaTypeHeaderValue(ContentType.Application.FhirJson);
@@ -69,6 +71,9 @@ public class GPConnectService : IGPConnectService
                     var stream = await response.Content.ReadAsStreamAsync();
 
                     using var reader = new StreamReader(stream, Encoding.UTF8);
+
+                    //string text = await File.ReadAllTextAsync("C:\\Users\\Tim\\source\\repos\\GPMigratorApp\\GPMigratorApp\\example.json");
+               
                     var fhirstring = await reader.ReadToEndAsync();
                     fhirResponse.Resource = jsonParser.Parse<Resource>(fhirstring);
                     return fhirResponse;

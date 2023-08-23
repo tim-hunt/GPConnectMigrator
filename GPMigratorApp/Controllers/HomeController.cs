@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Text.Json;
 using FutureNHS.Api.Configuration;
 using GPMigratorApp.GPConnect;
+using Hl7.Fhir.Model;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
@@ -47,7 +48,7 @@ namespace GPMigratorApp.Controllers
             search.Request = request;
 
             var patients = result.Patients;
-            
+
             search.Response = result;
             
             return View("Index",search);
@@ -93,7 +94,7 @@ namespace GPMigratorApp.Controllers
                             new Part
                             {
                                 name = "includeNumberOfMostRecent",
-                                valueInteger = 3
+                                valueInteger = 999
                             }
                         }
                     },

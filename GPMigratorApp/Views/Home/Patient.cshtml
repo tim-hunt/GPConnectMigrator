@@ -1,5 +1,5 @@
 @using Hl7.Fhir.Model
-@model Hl7.Fhir.Model.Patient
+@model GPMigratorApp.GPConnect.Profiles.GPConnectPatient
 
 <dl class="nhsuk-summary-list">
 
@@ -48,19 +48,14 @@
             
         </dd>
     </div>
-        <div class="nhsuk-summary-list__row">
-            <dt class="nhsuk-summary-list__key">
-                Registered since
-            </dt>
-            <dd class="nhsuk-summary-list__value">
-                @foreach (var extension in @Model.Extension.Where(x=> x.Url == "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-RegistrationDetails-1"))
-                {
-                    var extension1 = (IEnumerable<Extension>) @extension.FirstOrDefault(x => x.Key == "extension").Value;
-                    <p>@extension1.FirstOrDefault(ex=> ex.Url == "firstRegistered").NamedChildren.NamedChildren.FirstOrDefault(x=> x.Value)</p>
-
-                }
-                
-            </dd>
-        </div>
+    <div class="nhsuk-summary-list__row">
+        <dt class="nhsuk-summary-list__key">
+            Registered since2
+        </dt>
+        <dd class="nhsuk-summary-list__value">
+            <p>@Model.FirstRegistered.ToString("dd/MM/yyyy")</p>
+            
+        </dd>
+    </div>
 
 </dl>

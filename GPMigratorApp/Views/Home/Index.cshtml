@@ -26,7 +26,17 @@
                      {
                          @Html.Partial("Patient", patient)
                      }
-              
+                 </div>
+                 <div>
+                     <h2 class="">Documents</h2>
+                     <div class="nhsuk-summary-list__row">
+                         <dt class="nhsuk-summary-list__key">
+                             Count
+                         </dt>
+                         <dd class="nhsuk-summary-list__value">
+                             <p>@Model.Response.Documents.Count</p>
+                         </dd>
+                     </div>
                      </div>
                  
              }

@@ -1,17 +1,22 @@
-﻿namespace GPConnect.Provider.AcceptanceTests.Http
+﻿using GPMigratorApp.GPConnect.Profiles;
+using Hl7.Fhir.Introspection;
+using Hl7.Fhir.Serialization;
+
+
+namespace GPConnect.Provider.AcceptanceTests.Http
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using Hl7.Fhir.Model;
-
+    using Hl7.Fhir.Support;
     public class FhirResponse
     {
         public Resource Resource { get; set; }
 
         public List<Bundle.EntryComponent> Entries => ((Bundle)Resource).Entry;
 
-        public List<Patient> Patients => GetResources<Patient>(ResourceType.Patient);
+        public IEnumerable<GPConnectPatient> Patients => GetResources<Patient>(ResourceType.Patient).Select(x=> new GPConnectPatient(x));
         public List<Organization> Organizations => GetResources<Organization>(ResourceType.Organization);
         public List<Composition> Compositions => GetResources<Composition>(ResourceType.Composition);
         public List<Device> Devices => GetResources<Device>(ResourceType.Device);
@@ -26,6 +31,7 @@
         public List<Medication> Medications => GetResources<Medication>(ResourceType.Medication);
         public List<MedicationStatement> MedicationStatements => GetResources<MedicationStatement>(ResourceType.MedicationStatement);
         public List<MedicationRequest> MedicationRequests => GetResources<MedicationRequest>(ResourceType.MedicationRequest);
+        public List<DocumentReference> Documents => GetResources<DocumentReference>(ResourceType.DocumentReference);
         public List<List> Lists => GetResources<List>(ResourceType.List);
 
         private List<T> GetResources<T>(ResourceType resourceType) where T : Resource
@@ -34,16 +40,11 @@
             var type = typeof(T);
 
            
-                return Entries
-                    .Where(entry => entry.Resource.TypeName == resourceType.ToString())
-                    .Select(entry => (T)entry.Resource)
-                    .ToList();
-            
+            return Entries
+                .Where(entry => entry.Resource.TypeName == resourceType.ToString())
+                .Select(entry => (T)entry.Resource)
+                .ToList();
 
-            return new List<T>
-            {
-                (T)Resource
-            };
         }
 
         private static Dictionary<Type, ResourceType> ResourceTypeMap => new Dictionary<Type, ResourceType>
