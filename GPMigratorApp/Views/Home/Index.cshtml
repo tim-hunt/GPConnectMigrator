@@ -1,0 +1,34 @@
+﻿@using Newtonsoft.Json
+@model Search
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="nhsuk-width-container">
+    <h1 class="app-page-heading">Find Patient</h1>
+    @using (Html.BeginForm("IndexPost", "Home", FormMethod.Post))
+    {
+        <div class="search-wrap" id="wrap-search">
+            
+            @Html.TextBoxFor(m => m.NhsNumber, new {@class = "nhsuk-search__input", @placeholder = "Patient NHS Number"})
+            <button class="nhsuk-search__submit" type="submit">
+
+                <svg b-jhzfvn6z4s="" class="nhsuk-icon nhsuk-icon__search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="27" height="27">
+                    <path b-jhzfvn6z4s="" d="M19.71 18.29l-4.11-4.1a7 7 0 1 0-1.41 1.41l4.1 4.11a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42zM5 10a5 5 0 1 1 5 5 5 5 0 0 1-5-5z"></path>
+                </svg>
+            </button>
+        </div>
+        @if (@Model.Response is not null)
+             {
+                 <div>
+                     <h2 class="">Patient</h2>
+                     @foreach (var patient in @Model.Response.Patients)
+                     {
+                         @Html.Partial("Patient", patient)
+                     }
+              
+                     </div>
+                 
+             }
+    }
+</div>

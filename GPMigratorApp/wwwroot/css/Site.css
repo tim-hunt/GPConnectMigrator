@@ -1,0 +1,44 @@
+@import 'nhsuk-7.0.0.min.css';
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 90px;
+}
+
+.search-wrap {
+  margin: auto;
+  max-width: 280px;
+}
+.search-wrap button {
+  background-color: #005eb8;
+}
+.search-wrap button svg {
+  fill: #fff;
+}
+
+.header-title .nhsuk-header__link {
+  float: left;
+}
+.header-title .header-title-text {
+  float: right;
+  padding-left: 20px;
+  color: #ffffff;
+}
+
+.nhsuk-main-wrapper {
+  min-height: 600px;
+}
+
+/*# sourceMappingURL=Site.css.map */

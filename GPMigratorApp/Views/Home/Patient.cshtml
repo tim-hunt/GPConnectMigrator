@@ -1,0 +1,66 @@
+@using Hl7.Fhir.Model
+@model Hl7.Fhir.Model.Patient
+
+<dl class="nhsuk-summary-list">
+
+    <div class="nhsuk-summary-list__row">
+        <dt class="nhsuk-summary-list__key">
+            Name
+        </dt>
+        <dd class="nhsuk-summary-list__value">
+            @Model.Name[0].TextElement
+        </dd>
+    </div>
+
+    <div class="nhsuk-summary-list__row">
+        <dt class="nhsuk-summary-list__key">
+            Date of birth
+        </dt>
+        <dd class="nhsuk-summary-list__value">
+            @Model.BirthDate
+        </dd>
+    </div>
+
+    <div class="nhsuk-summary-list__row">
+        <dt class="nhsuk-summary-list__key">
+            Contact information
+        </dt>
+        <dd class="nhsuk-summary-list__value">
+            @foreach (var line in @Model.Address[0].LineElement)
+            {
+                <p>@line</p>
+            }
+            <p>@Model.Address[0].CityElement</p>
+            <p>@Model.Address[0].PostalCodeElement</p>
+        </dd>
+
+    </div>
+
+    <div class="nhsuk-summary-list__row">
+        <dt class="nhsuk-summary-list__key">
+            Contact details
+        </dt>
+        <dd class="nhsuk-summary-list__value">
+            @foreach (var contact in @Model.Telecom.OrderBy(x => x.Rank))
+            {
+                <p>@contact.System.Value - @contact.ValueElement</p>
+            }
+            
+        </dd>
+    </div>
+        <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">
+                Registered since
+            </dt>
+            <dd class="nhsuk-summary-list__value">
+                @foreach (var extension in @Model.Extension.Where(x=> x.Url == "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-RegistrationDetails-1"))
+                {
+                    var extension1 = (IEnumerable<Extension>) @extension.FirstOrDefault(x => x.Key == "extension").Value;
+                    <p>@extension1.FirstOrDefault(ex=> ex.Url == "firstRegistered").NamedChildren.NamedChildren.FirstOrDefault(x=> x.Value)</p>
+
+                }
+                
+            </dd>
+        </div>
+
+</dl>

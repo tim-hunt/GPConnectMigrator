@@ -1,0 +1,24 @@
+@import 'nhsuk-7.0.0.min.css';
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 90px;
+}
+
+.search-wrap {
+  max-width: 280px;
+}
+
+/*# sourceMappingURL=Site.css.map */

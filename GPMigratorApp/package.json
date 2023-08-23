@@ -1,0 +1,11 @@
+{
+  "requires": true,
+  "lockfileVersion": 1,
+  "scripts": {
+		"scss": "node-sass --watch /Assets/scss -o /wwwroot/css"
+	},
+  "dependencies": {
+    "nhsuk-frontend": "^7.0.0",
+    "node-sass": "^9.0.0"
+  }
+}
