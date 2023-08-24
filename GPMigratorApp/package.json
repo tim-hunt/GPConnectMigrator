@@ -2,9 +2,10 @@
   "requires": true,
   "lockfileVersion": 1,
   "scripts": {
-		"scss": "node-sass --watch /Assets/scss -o /wwwroot/css"
-	},
+    "scss": "node-sass --watch /Assets/scss -o /wwwroot/css"
+  },
   "dependencies": {
+    "GPC.STU3.FHIR-Assets": "^1.1.1",
     "nhsuk-frontend": "^7.0.0",
     "node-sass": "^9.0.0"
   }

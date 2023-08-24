@@ -1,8 +1,17 @@
 @using Hl7.Fhir.Model
+@using GPMigratorApp.GPConnect.Helpers
 @model GPMigratorApp.GPConnect.Profiles.GPConnectPatient
 
 <dl class="nhsuk-summary-list">
 
+      <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">
+                NHS Number
+            </dt>
+            <dd class="nhsuk-summary-list__value">
+                @Model.NHSNumber.Value - @Model.NHSNumberVerified.Display
+            </dd>
+        </div>
     <div class="nhsuk-summary-list__row">
         <dt class="nhsuk-summary-list__key">
             Name
@@ -25,16 +34,57 @@
         <dt class="nhsuk-summary-list__key">
             Contact information
         </dt>
-        <dd class="nhsuk-summary-list__value">
-            @foreach (var line in @Model.Address[0].LineElement)
+        </div>
+     <div class="nhsuk-summary-list__row">  
+        @if (@Model.HomeAddress is not null)
+        { <dt class="nhsuk-summary-list__key">
+              Home Address
+          </dt>
+            <dd class="nhsuk-summary-list__value">
+                @foreach (var line in @Model.HomeAddress.LineElement)
+                {
+                    <p>@line</p>
+                }
+                <p>@Model.HomeAddress.CityElement</p>
+                <p>@Model.HomeAddress.PostalCodeElement</p>
+                @if (@Model.HomeAddress.HasStart())
+                {
+                    <p>From: @Model.HomeAddress.Start()</p>
+                }
+                @if (@Model.HomeAddress.HasEnd())
+                {
+                    <p>To: @Model.HomeAddress.End()</p>
+                }
+            </dd>
+        }
+        </div>
+        @if (@Model.OtherAddresses != null && Model.OtherAddresses.Any())
+        {<div class="nhsuk-summary-list__row">  
+       
+            @foreach (var address in @Model.OtherAddresses)
             {
-                <p>@line</p>
+             <dt class="nhsuk-summary-list__key">
+                  Other Addresses
+              </dt>
+                <dd class="nhsuk-summary-list__value">
+                    <p>Use @address.Use</p>
+                    @foreach (var line in address.LineElement)
+                    {
+                        <p>@line</p>
+                    }
+                    <p>@address.CityElement</p>
+                    <p>@address.PostalCodeElement</p>
+                    <p>From: @address.Start()</p>
+                    @if (@Model.HomeAddress.HasEnd())
+                    {
+                        <p>To: @address.End()</p>
+                    }
+                    <p>@address.PostalCodeElement</p>
+                </dd>
             }
-            <p>@Model.Address[0].CityElement</p>
-            <p>@Model.Address[0].PostalCodeElement</p>
-        </dd>
+            </div>
+        }
 
-    </div>
 
     <div class="nhsuk-summary-list__row">
         <dt class="nhsuk-summary-list__key">
@@ -50,7 +100,7 @@
     </div>
     <div class="nhsuk-summary-list__row">
         <dt class="nhsuk-summary-list__key">
-            Registered since2
+            Registered since
         </dt>
         <dd class="nhsuk-summary-list__value">
             <p>@Model.FirstRegistered.ToString("dd/MM/yyyy")</p>
