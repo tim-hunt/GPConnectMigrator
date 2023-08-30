@@ -32,6 +32,9 @@ namespace GPConnect.Provider.AcceptanceTests.Http
         public List<MedicationStatement> MedicationStatements => GetResources<MedicationStatement>(ResourceType.MedicationStatement);
         public List<MedicationRequest> MedicationRequests => GetResources<MedicationRequest>(ResourceType.MedicationRequest);
         public List<DocumentReference> Documents => GetResources<DocumentReference>(ResourceType.DocumentReference);
+        public List<EpisodeOfCare> EpisodesOfCare => GetResources<EpisodeOfCare>(ResourceType.EpisodeOfCare);
+        public IEnumerable<GPConnectEncounter> Encounters => GetResources<Encounter>(ResourceType.Encounter).Select(x=> new GPConnectEncounter(x, this));
+
         public List<List> Lists => GetResources<List>(ResourceType.List);
 
         private List<T> GetResources<T>(ResourceType resourceType) where T : Resource

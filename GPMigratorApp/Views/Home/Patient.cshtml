@@ -29,6 +29,30 @@
             @Model.BirthDate
         </dd>
     </div>
+    <div class="nhsuk-summary-list__row">
+        <dt class="nhsuk-summary-list__key">
+            Language
+        </dt>
+        <dd class="nhsuk-summary-list__value">
+            @Model.Language
+        </dd>
+    </div>
+    <div class="nhsuk-summary-list__row">
+        <dt class="nhsuk-summary-list__key">
+            Religion
+        </dt>
+        <dd class="nhsuk-summary-list__value">
+            @Model.Religion?.Display
+        </dd>
+    </div>
+     <div class="nhsuk-summary-list__row">
+                    <dt class="nhsuk-summary-list__key">
+                        Ethnicity
+                    </dt>
+                    <dd class="nhsuk-summary-list__value">
+                        @Model.Ethnicity?.Display
+                    </dd>
+                </div>
 
     <div class="nhsuk-summary-list__row">
         <dt class="nhsuk-summary-list__key">

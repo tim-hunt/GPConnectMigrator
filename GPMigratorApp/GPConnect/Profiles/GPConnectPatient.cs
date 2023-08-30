@@ -47,6 +47,33 @@ public class GPConnectPatient : Patient
           
         }
     }
+    
+    public Coding? Ethnicity
+    {
+        get
+        {
+            var ethnicity = Extension.FirstOrDefault(x => x.Url == "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-EthnicCategory-1");
+            var value = (CodeableConcept) ethnicity?.Value;
+            return value?.Coding.FirstOrDefault();
+        }
+    }
+    
+    // CANT TEST THIS BUT BEST GUESS FOR THE MOMENT
+    public Coding? Religion
+    {
+        get
+        {
+            var religion = Extension.FirstOrDefault(x => x.Url == "https://fhir.nhs.uk/STU3/StructureDefinition/patient-religion");
+            var child = religion?.FirstOrDefault(x=> x.Key == "valueCodeableConcept");
+            if (child is not null)
+            {
+                var value = (CodeableConcept) child.Value.Value;
+                return value.Coding.FirstOrDefault();
+            }
+            return null;
+        }
+    }
+    
 
     public Address? HomeAddress => AddressHelper.FindHomeAddress(this);
     
