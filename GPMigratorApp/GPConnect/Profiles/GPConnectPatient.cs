@@ -21,6 +21,7 @@ public class GPConnectPatient : Patient
     {
         get
         {
+            var y = this.GeneralPractitioner.FirstOrDefault().ReferenceElement.Value;
             var registration = this.Extension.FirstOrDefault(x => x.Url == "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-RegistrationDetails-1");
             var ext1 = registration?.Extension.FirstOrDefault(x => x.Url == "registrationPeriod");
             var registered = (Period) ext1?.Value;

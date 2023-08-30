@@ -1,5 +1,6 @@
 using System.Reflection;
 using System.Runtime.Serialization;
+using DotNetGPSystem;
 using GPConnect.Provider.AcceptanceTests.Http;
 using GPMigratorApp.GPConnect.Helpers;
 using Hl7.Fhir.Introspection;
@@ -21,8 +22,22 @@ public class GPConnectEncounter : Encounter
         _practicioners = bundle.Practitioners;
     }
 
-    public EpisodeOfCare? GetEpisodeOfCare => _episodeOfCare;
+    public CareRecord_Consultation GetFlatRecord()
+    {
+        var y = new CareRecord_Consultation();
+        y.PatientGuid = Patient();
+        y.Complete = this.Status.Value;
+    }
 
+    public EpisodeOfCare? GetEpisodeOfCare => _episodeOfCare;
+    
+    public string Patient()
+    {
+        var patient = this.Subject.Reference;
+
+        var split = patient.Split("/");
+        return split[1];
+    }
     public Practitioner? PrimaryPerformer()
     {
         var reference = Participant

@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="EFExamples" />
     <Folder Include="GPConnect\Cache" />
     <Folder Include="GPConnect\Data" />
     <Folder Include="GPConnect\Http\" />
