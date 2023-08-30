@@ -1,5 +1,6 @@
 using System.Reflection;
 using System.Runtime.Serialization;
+using GPMigratorApp.DTOs;
 using GPMigratorApp.GPConnect.Helpers;
 using Hl7.Fhir.Introspection;
 using Hl7.Fhir.Model;
@@ -14,9 +15,41 @@ public class GPConnectPatient : Patient
     public GPConnectPatient(Patient patient)
     {
         InitInhertedProperties(patient);
-        
-        
+        var dto = GetDTO();
     }
+
+    public PatientDTO GetDTO()
+    {
+        var dto = new PatientDTO();
+        dto.PatientGuid = this.Id;
+        dto.OrganisationGuid = ReferenceHelper.GetId(this.ManagingOrganization.Reference);
+        dto.UsualGpUserInRoleGuid = ReferenceHelper.GetId(GeneralPractitioner.FirstOrDefault().Reference);
+        dto.Sex = Gender?.ToString();
+        dto.Title = Name[0].Prefix.FirstOrDefault();
+        dto.GivenName = Name[0].GivenElement.First().Value;
+        dto.MiddleNames = Name[0].GivenElement.Skip(1).Select(x=> x.Value);
+        dto.Surname = Name[0].Family;
+        dto.DateOfBirthUTC = DateTime.Parse(this.BirthDate);
+        var deceasedDate = (FhirDateTime?) this.Deceased;
+        if (deceasedDate is not null)
+        {
+            dto.DateOfDeathUTC = DateTime.Parse(deceasedDate.Value);
+        }
+        dto.DateOfRegistrationUTC = FirstRegistered;
+        dto.NhsNumber = NHSNumber?.Value;
+        dto.NHSNumberStatus = NHSNumberVerified?.Code;
+        dto.Ethnicity = Ethnicity?.Code;
+        dto.Language = Language.Code;
+        dto.Religion = Religion?.Code;
+        dto.PreferredMethodOfCommunication = PreferredMethodOfCommunication.Code;
+        dto.CommunicationPreficiency = CommunicationProficiency.Code;
+        dto.InterpreterRequired = InterpreterRequired;
+        dto.HomeAddress = new AddressDTO(HomeAddress);
+        dto.OtherAddresses = OtherAddresses?.Select(x => new AddressDTO(x));
+        dto.Active = Active.Value;
+        return dto;
+    }
+    
     public DateTime FirstRegistered
     {
         get
@@ -59,6 +92,46 @@ public class GPConnectPatient : Patient
         }
     }
     
+    public Coding? Language
+    {
+        get
+        {
+            var communication = Extension.FirstOrDefault(x => x.Url == "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-NHSCommunication-1");
+            var value = (CodeableConcept) communication?.Extension?.FirstOrDefault(x=> x.Url == "language")?.Value;
+            return value?.Coding.FirstOrDefault();
+        }
+    }
+    
+    public Coding? PreferredMethodOfCommunication
+    {
+        get
+        {
+            var communication = Extension.FirstOrDefault(x => x.Url == "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-NHSCommunication-1");
+            var value = (CodeableConcept) communication?.Extension?.FirstOrDefault(x=> x.Url == "modeOfCommunication")?.Value;
+            return value?.Coding.FirstOrDefault();
+        }
+    }
+    
+    public Coding? CommunicationProficiency
+    {
+        get
+        {
+            var communication = Extension.FirstOrDefault(x => x.Url == "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-NHSCommunication-1");
+            var value = (CodeableConcept) communication?.Extension?.FirstOrDefault(x=> x.Url == "communicationProficiency")?.Value;
+            return value?.Coding.FirstOrDefault();
+        }
+    }
+    
+    public bool? InterpreterRequired
+    {
+        get
+        {
+            var communication = Extension.FirstOrDefault(x => x.Url == "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-NHSCommunication-1");
+            var value =  communication?.Extension?.FirstOrDefault(x=> x.Url == "interpreterRequired")?.Value;
+            return (bool)value.FirstOrDefault().Value;
+        }
+    }
+    
     // CANT TEST THIS BUT BEST GUESS FOR THE MOMENT
     public Coding? Religion
     {
@@ -78,7 +151,7 @@ public class GPConnectPatient : Patient
 
     public Address? HomeAddress => AddressHelper.FindHomeAddress(this);
     
-    public IEnumerable<Address>? OtherAddresses => AddressHelper.OtherAddresses(this);
+    public IEnumerable<Address?>? OtherAddresses => AddressHelper.OtherAddresses(this);
 
 
     private void InitInhertedProperties (object patient)

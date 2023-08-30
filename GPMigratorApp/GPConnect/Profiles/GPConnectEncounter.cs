@@ -22,21 +22,11 @@ public class GPConnectEncounter : Encounter
         _practicioners = bundle.Practitioners;
     }
 
-    public CareRecord_Consultation GetFlatRecord()
-    {
-        var y = new CareRecord_Consultation();
-        y.PatientGuid = Patient();
-        y.Complete = this.Status.Value;
-    }
-
     public EpisodeOfCare? GetEpisodeOfCare => _episodeOfCare;
     
-    public string Patient()
+    public string? Patient()
     {
-        var patient = this.Subject.Reference;
-
-        var split = patient.Split("/");
-        return split[1];
+        return ReferenceHelper.GetId(this.Subject.Reference);
     }
     public Practitioner? PrimaryPerformer()
     {
@@ -44,9 +34,7 @@ public class GPConnectEncounter : Encounter
             .FirstOrDefault(x => x.Type.Any(y => y.Coding.Any(z => z.Code == "PPRF")))
             ?.Individual
             .Reference;
-
-        var split = reference.Split("/");
-        return _practicioners?.FirstOrDefault(x => x.Id == split[1]);
+        return _practicioners?.FirstOrDefault(x => x.Id == ReferenceHelper.GetId(reference));
     }
     
     public Practitioner? Recorder()
@@ -55,9 +43,8 @@ public class GPConnectEncounter : Encounter
             .FirstOrDefault(x => x.Type.Any(y => y.Coding.Any(z => z.Code == "REC")))
             ?.Individual
             .Reference;
-
-        var split = reference.Split("/");
-        return _practicioners?.FirstOrDefault(x => x.Id == split[1]);
+        
+        return _practicioners?.FirstOrDefault(x => x.Id == ReferenceHelper.GetId(reference));
     }
     
     private void InitInhertedProperties (object encounter)

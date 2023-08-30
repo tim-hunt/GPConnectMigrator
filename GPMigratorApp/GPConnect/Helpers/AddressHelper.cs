@@ -56,7 +56,7 @@ namespace GPMigratorApp.GPConnect.Helpers
             return homeAddresses.Last();
         }
         
-        public static IEnumerable<Address>? OtherAddresses(Patient fhirPatient)
+        public static IEnumerable<Address?>? OtherAddresses(Patient fhirPatient)
         {
             if (!fhirPatient.Address.Any())
             {
@@ -139,7 +139,7 @@ namespace GPMigratorApp.GPConnect.Helpers
             return address.Period?.EndElement != null;
         }
         
-        public static DateTime? Start(this Address address)
+        public static DateTime? Start(this Address? address)
         {
             var success = DateTime.TryParse(address.Period?.StartElement.Value, out var result);
             if (success)
@@ -148,7 +148,7 @@ namespace GPMigratorApp.GPConnect.Helpers
             return null;
         }
         
-        public static DateTime? End(this Address address)
+        public static DateTime? End(this Address? address)
         {
             var success = DateTime.TryParse(address.Period?.EndElement.Value, out var result);
             if (success)
