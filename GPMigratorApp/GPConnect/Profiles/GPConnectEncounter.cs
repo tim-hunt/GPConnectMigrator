@@ -2,6 +2,7 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using DotNetGPSystem;
 using GPConnect.Provider.AcceptanceTests.Http;
+using GPMigratorApp.DTOs;
 using GPMigratorApp.GPConnect.Helpers;
 using Hl7.Fhir.Introspection;
 using Hl7.Fhir.Model;
@@ -22,6 +23,26 @@ public class GPConnectEncounter : Encounter
         _practicioners = bundle.Practitioners;
     }
 
+    public EncounterDTO GetDTO()
+    {
+        var dto = new EncounterDTO
+        {
+            Guid = Id,
+            Identifier = DataIdentifier,
+            Status = Status.ToString(),
+            Type = TypeText,
+            PatientGuid = Patient(),
+            PerformerGuid = PrimaryPerformer().Id,
+            RecorderGuid = Recorder().Id,
+            PeriodStart = DateTime.Parse(Period.Start),
+            PeriodEnd = DateTime.Parse(Period.End),
+            DurationValue = Length.Value,
+            DurationUnit = Length.Unit,
+            DurationCode = Length.Code
+        };
+        return dto;
+    }
+
     public EpisodeOfCare? GetEpisodeOfCare => _episodeOfCare;
     
     public string? Patient()
@@ -35,6 +56,27 @@ public class GPConnectEncounter : Encounter
             ?.Individual
             .Reference;
         return _practicioners?.FirstOrDefault(x => x.Id == ReferenceHelper.GetId(reference));
+    }
+
+    public String? DataIdentifier
+    {
+        get
+        {
+            var identifier = Identifier.FirstOrDefault(x => x.System == "https://provider.nhs.uk/data-identifier");
+            if (identifier is not null)
+            {
+                return identifier.Value;
+            }
+            return null;
+        }
+    }
+
+    public String? TypeText
+    {
+        get
+        {
+            return Type.FirstOrDefault().Text;
+        }
     }
     
     public Practitioner? Recorder()

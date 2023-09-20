@@ -46,9 +46,6 @@ namespace GPMigratorApp.Controllers
                 _appSettings.ProviderASID,JsonContent.Create(request));
 
             search.Request = request;
-
-            var patients = result.Patients;
-
             search.Response = result;
             
             return View("Index",search);
