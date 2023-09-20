@@ -19,30 +19,77 @@
             </button>
         </div>
         @if (@Model.Response is not null)
-             {
-                 <div>
-                     <h2 class="">Patient</h2>
-                     @foreach (var patient in @Model.Response.Patients)
-                     {
-                         @Html.Partial("Patient", patient)
-                     }
-                 </div>
-                 <div>
-                     <h2 class="">Encounters</h2>
-                     @Html.Partial("Encounters", @Model.Response.Encounters)
-                 </div>
-                 <div>
-                     <h2 class="">Documents</h2>
-                     <div class="nhsuk-summary-list__row">
-                         <dt class="nhsuk-summary-list__key">
-                             Count
-                         </dt>
-                         <dd class="nhsuk-summary-list__value">
-                             <p>@Model.Response.Documents.Count</p>
-                         </dd>
+             { 
+                 <div class="nhsuk-u-margin-top-9">
+                     <div class="nhsuk-tabs" data-module="nhsuk-tabs">
+                         <h2 class="nhsuk-tabs__title">
+                             Contents
+                         </h2>
+
+                         <ul class="nhsuk-tabs__list">
+
+                             <li class="nhsuk-tabs__list-item nhsuk-tabs__list-item--selected">
+                                 <a class="nhsuk-tabs__tab" href="#patient">
+                                     Patient
+                                 </a>
+                             </li>
+
+                             <li class="nhsuk-tabs__list-item">
+                                 <a class="nhsuk-tabs__tab" href="#medication-statements">
+                                     Medication Statements
+                                 </a>
+                             </li>
+
+                             <li class="nhsuk-tabs__list-item">
+                                 <a class="nhsuk-tabs__tab" href="#encounters">
+                                     Enounters
+                                 </a>
+                             </li>
+
+                             <li class="nhsuk-tabs__list-item">
+                                 <a class="nhsuk-tabs__tab" href="#documents">
+                                     Documents
+                                 </a>
+                             </li>
+
+                         </ul>
+
+                         <div class="nhsuk-tabs__panel" id="patient">
+                             <div>
+                                 <h2 class="">Patient</h2>
+                                 @foreach (var patient in @Model.Response.Patients)
+                                 {
+                                     @Html.Partial("Patient", patient)
+                                 }
+                             </div>
+                         </div>
+                         <div class="nhsuk-tabs__panel" id="medication-statements">
+                             <div>
+                                 <h2 class="">Medication Statements</h2>
+                                 @Html.Partial("MedicationStatements", @Model.Response.MedicationStatements)
+                             </div>
+                         </div>
+                         <div class="nhsuk-tabs__panel" id="encounters">
+                             <div>
+                                 <h2 class="">Encounters</h2>
+                                 @Html.Partial("Encounters", @Model.Response.Encounters)
+                             </div>
+                         </div>
+                         <div class="nhsuk-tabs__panel" id="documents">
+                             <div>
+                                 <h2 class="">Documents</h2>
+                                 <div class="nhsuk-summary-list__row">
+                                     <dt class="nhsuk-summary-list__key">
+                                         Count
+                                     </dt>
+                                     <dd class="nhsuk-summary-list__value">
+                                         <p>@Model.Response.Documents.Count</p>
+                                     </dd>
+                                 </div>
+                             </div>
+                         </div>
                      </div>
-                     </div>
-                 
+                 </div>
              }
     }
 </div>

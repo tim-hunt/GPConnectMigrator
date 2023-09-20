@@ -1,0 +1,104 @@
+@using Hl7.Fhir.Model
+@using GPMigratorApp.GPConnect.Helpers
+@model IEnumerable<GPMigratorApp.GPConnect.Profiles.GPConnectMedicationStatement>
+
+@foreach (var medicationStatement in @Model)
+{
+    <dl class="nhsuk-summary-list">
+
+        <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">
+                Id
+            </dt>
+            <dd class="nhsuk-summary-list__value">
+                @medicationStatement.Id
+            </dd>
+        </div>
+        <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">
+                Status
+            </dt>
+            <dd class="nhsuk-summary-list__value">
+                @medicationStatement.Status
+            </dd>
+        </div>
+        <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">
+                Last Issue Date
+            </dt>
+            <dd class="nhsuk-summary-list__value">
+                @medicationStatement.LastIssueDate
+            </dd>
+        </div>
+        <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">
+                Date Asserted
+            </dt>
+            <dd class="nhsuk-summary-list__value">
+                @medicationStatement.DateAsserted
+            </dd>
+        </div>
+        <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">
+                Prescribing Agency
+            </dt>
+            <dd class="nhsuk-summary-list__value">
+                @medicationStatement.PrescribingAgency.Display
+            </dd>
+        </div>
+        <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">
+                Dosage Last Changed
+            </dt>
+            <dd class="nhsuk-summary-list__value">
+                @medicationStatement.DosageLastChanged
+            </dd>
+        </div>
+        <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">
+                Dosage
+            </dt>
+            <dd class="nhsuk-summary-list__value">
+                @medicationStatement.DosageInstructions.Text
+                @medicationStatement.DosageInstructions.PatientInstruction
+            </dd>
+        </div>
+        <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">
+                Taken
+            </dt>
+            <dd class="nhsuk-summary-list__value">
+                @medicationStatement.Taken.Value
+            </dd>
+        </div>
+        <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">
+                Effective Period
+            </dt>
+            <dd class="nhsuk-summary-list__value">
+                Start: @medicationStatement.EffectivePeriod?.Start - End: @medicationStatement.EffectivePeriod?.End
+            </dd>
+        </div>
+        
+        <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">
+                Based on Medication Request
+            </dt>
+            <dd class="nhsuk-summary-list__value">
+                @medicationStatement.MedicationRequest.Id
+                @medicationStatement.MedicationRequest.DispenseRequestQuantity
+            </dd>
+        </div>
+        
+         <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">
+                Medication
+            </dt>
+             <dd class="nhsuk-summary-list__value">
+                 Name: @medicationStatement.ReferencedMedication.Code.Coding.FirstOrDefault().Display
+                 <br>
+                 Snomed code: @medicationStatement.ReferencedMedication.Code.Coding.FirstOrDefault().Code
+             </dd>
+        </div>
+    </dl>
+}
