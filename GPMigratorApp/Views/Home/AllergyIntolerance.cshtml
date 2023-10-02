@@ -1,0 +1,82 @@
+@using Hl7.Fhir.Model
+@using GPMigratorApp.GPConnect.Helpers
+@model IEnumerable<GPMigratorApp.GPConnect.Profiles.GpConnectAllergyIntolerance>
+@foreach (var allergy in @Model)
+{
+    <dl class="nhsuk-summary-list">
+
+        <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">
+                Id
+            </dt>
+            <dd class="nhsuk-summary-list__value">
+                @allergy.Id
+            </dd>
+        </div>
+        <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">
+                Clinical Status
+            </dt>
+            <dd class="nhsuk-summary-list__value">
+                @allergy.ClinicalStatus.ToString()
+            </dd>
+        </div>
+        <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">
+                Category
+            </dt>
+            <dd class="nhsuk-summary-list__value">
+                @allergy.Category.FirstOrDefault().ToString()
+            </dd>
+        </div>
+        <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">
+                Verification Status
+            </dt>
+            <dd class="nhsuk-summary-list__value">
+                @allergy.VerificationStatus.ToString()
+            </dd>
+        </div>
+        <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">
+                Onset Date
+            </dt>
+            <dd class="nhsuk-summary-list__value">
+                @allergy.Onset.FirstOrDefault().Value
+            </dd>
+        </div>
+        <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">
+                Asserted Date
+            </dt>
+            <dd class="nhsuk-summary-list__value">
+                @allergy.AssertedDate
+            </dd>
+        </div>
+        
+        <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">
+                Snomed Details
+            </dt>
+            <dd class="nhsuk-summary-list__value">
+                Code: @allergy.Code.Coding.FirstOrDefault(x => x.System == "http://snomed.info/sct").Code
+                <br>
+                Name: @allergy.Code.Coding.FirstOrDefault(x => x.System == "http://snomed.info/sct").Display
+                <br>
+                Description Id: @allergy.Code.Coding.FirstOrDefault(x => x.System == "http://snomed.info/sct").Extension.FirstOrDefault(x => x.Url == "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-coding-sctdescid").Extension.FirstOrDefault().Value
+            </dd>
+        </div>
+        <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">
+                Reaction
+            </dt>
+            <dd class="nhsuk-summary-list__value">
+                Serverity: @allergy.Reaction.FirstOrDefault().Severity.ToString()
+                <br>
+                Snomed Code: @allergy.Reaction.FirstOrDefault().Manifestation.FirstOrDefault().Coding.FirstOrDefault().Code
+                <br>
+                Text: @allergy.Reaction.FirstOrDefault().Manifestation.FirstOrDefault().Coding.FirstOrDefault().Display
+            </dd>
+        </div>
+    </dl>
+}

@@ -60,6 +60,7 @@
             </dt>
             <dd class="nhsuk-summary-list__value">
                 @medicationStatement.DosageInstructions.Text
+                <br>
                 @medicationStatement.DosageInstructions.PatientInstruction
             </dd>
         </div>
@@ -76,7 +77,9 @@
                 Effective Period
             </dt>
             <dd class="nhsuk-summary-list__value">
-                Start: @medicationStatement.EffectivePeriod?.Start - End: @medicationStatement.EffectivePeriod?.End
+                Start: @medicationStatement.EffectivePeriod?.Start
+                <br>
+                End: @medicationStatement.EffectivePeriod?.End
             </dd>
         </div>
         
@@ -85,8 +88,9 @@
                 Based on Medication Request
             </dt>
             <dd class="nhsuk-summary-list__value">
-                @medicationStatement.MedicationRequest.Id
-                @medicationStatement.MedicationRequest.DispenseRequestQuantity
+                Id: @medicationStatement.MedicationRequest.Id 
+                <br>
+                Type: @medicationStatement.MedicationRequest.PrescriptionType.Display
             </dd>
         </div>
         

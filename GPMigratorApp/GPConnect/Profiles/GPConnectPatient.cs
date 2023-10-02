@@ -39,18 +39,18 @@ public class GPConnectPatient : Patient
         dto.NhsNumber = NHSNumber?.Value;
         dto.NHSNumberStatus = NHSNumberVerified?.Code;
         dto.Ethnicity = Ethnicity?.Code;
-        dto.Language = Language.Code;
+        dto.Language = Language?.Code;
         dto.Religion = Religion?.Code;
-        dto.PreferredMethodOfCommunication = PreferredMethodOfCommunication.Code;
-        dto.CommunicationPreficiency = CommunicationProficiency.Code;
+        dto.PreferredMethodOfCommunication = PreferredMethodOfCommunication?.Code;
+        dto.CommunicationPreficiency = CommunicationProficiency?.Code;
         dto.InterpreterRequired = InterpreterRequired;
         dto.HomeAddress = new AddressDTO(HomeAddress);
         dto.OtherAddresses = OtherAddresses?.Select(x => new AddressDTO(x));
-        dto.Active = Active.Value;
+        dto.Active = Active;
         return dto;
     }
     
-    public DateTime FirstRegistered
+    public DateTime? FirstRegistered
     {
         get
         {
@@ -58,7 +58,12 @@ public class GPConnectPatient : Patient
             var registration = this.Extension.FirstOrDefault(x => x.Url == "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-RegistrationDetails-1");
             var ext1 = registration?.Extension.FirstOrDefault(x => x.Url == "registrationPeriod");
             var registered = (Period) ext1?.Value;
-            return DateTime.Parse(registered?.Start);
+            if (registered is not null)
+            {
+                return DateTime.Parse(registered?.Start);
+            }
+
+            return null;
         }
     }
 
@@ -128,7 +133,11 @@ public class GPConnectPatient : Patient
         {
             var communication = Extension.FirstOrDefault(x => x.Url == "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-NHSCommunication-1");
             var value =  communication?.Extension?.FirstOrDefault(x=> x.Url == "interpreterRequired")?.Value;
-            return (bool)value.FirstOrDefault().Value;
+            if (value is not null)
+            {
+                return (bool)value.FirstOrDefault().Value;
+            }
+            return null;
         }
     }
     

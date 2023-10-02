@@ -35,7 +35,7 @@ public class GPConnectMedicationStatement : MedicationStatement
             Medication = ReferencedMedication.GetDTO(),
             EffectivePeriodStart = DateTime.Parse(EffectivePeriod.Start),
             EffectivePeriodEnd = DateTime.Parse(EffectivePeriod.End),
-            PatientGuid = ReferenceHelper.GetId(this.Subject.Reference),
+            PatientGuid = ReferenceHelper.GetId(Subject.Reference),
             Taken = Taken.ToString(),
             DosageText = DosageInstructions.Text,
             DosagePatientInstruction = DosageInstructions.PatientInstruction
@@ -47,7 +47,6 @@ public class GPConnectMedicationStatement : MedicationStatement
     {
         get
         {
-            var medication = this.Medication.FirstOrDefault(x => x.Key == "url");
             var reference = BasedOn.FirstOrDefault()?.Reference;
             return _medicationRequests?.FirstOrDefault(x => x.Id == ReferenceHelper.GetId(reference));
         }

@@ -60,7 +60,7 @@ public class GPConnectMedication : Medication
     {
         foreach (var propertyInfo in medication.GetType().GetProperties())
         {
-            var props = typeof(Encounter).GetProperties().Where(p => !p.GetIndexParameters().Any());
+            var props = typeof(Medication).GetProperties().Where(p => !p.GetIndexParameters().Any());
             foreach (var prop in props)
             {
                 if (prop.CanWrite)

@@ -14,7 +14,7 @@ public class PatientDTO
     public string GivenName { get; set; }
     public IEnumerable<string>? MiddleNames { get; set; }
     public string Surname { get; set; }
-    public DateTime DateOfRegistrationUTC { get; set; }
+    public DateTime? DateOfRegistrationUTC { get; set; }
     public string? NhsNumber { get; set; }
     public string? PatientNumber { get; set; }
     public string PatientTypeDescription { get; set; }
@@ -27,10 +27,10 @@ public class PatientDTO
     public string? CarerRelation { get; set; }
     public string? PersonGuid { get; set; }
     public DateTime? DateOfDeactivation { get; set; }
-    public bool Deleted { get; set; }
-    public bool Active{ get; set; }
-    public bool SpineSensitive { get; set; }
-    public bool IsConfidential { get; set; }
+    public bool? Deleted { get; set; }
+    public bool? Active{ get; set; }
+    public bool? SpineSensitive { get; set; }
+    public bool? IsConfidential { get; set; }
     public MailAddress? EmailAddress { get; set; }
     public string? HomePhone { get; set; }
     public string? MobilePhone { get; set; }

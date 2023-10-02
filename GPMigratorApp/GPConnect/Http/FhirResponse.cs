@@ -27,7 +27,7 @@ namespace GPConnect.Provider.AcceptanceTests.Http
         public List<Appointment> Appointments => GetResources<Appointment>(ResourceType.Appointment);
         public List<Schedule> Schedules => GetResources<Schedule>(ResourceType.Schedule);
         public List<CapabilityStatement> CapabilityStatements => GetResources<CapabilityStatement>(ResourceType.CapabilityStatement);
-        public List<AllergyIntolerance> AllergyIntolerances => GetResources<AllergyIntolerance>(ResourceType.AllergyIntolerance);
+        public IEnumerable<GpConnectAllergyIntolerance> AllergyIntolerances => GetResources<AllergyIntolerance>(ResourceType.AllergyIntolerance).Select(x => new GpConnectAllergyIntolerance(x, this));
         public IEnumerable<GPConnectMedication> Medications => GetResources<Medication>(ResourceType.Medication).Select(x => new GPConnectMedication(x, this));
         public IEnumerable<GPConnectMedicationStatement> MedicationStatements => GetResources<MedicationStatement>(ResourceType.MedicationStatement).Select(x => new GPConnectMedicationStatement(x, this));
         public IEnumerable<GPConnectMedicationRequest> MedicationRequests => GetResources<MedicationRequest>(ResourceType.MedicationRequest).Select(x => new GPConnectMedicationRequest(x, this));

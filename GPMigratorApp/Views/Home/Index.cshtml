@@ -46,6 +46,11 @@
                                  </a>
                              </li>
 
+                              <li class="nhsuk-tabs__list-item">
+                                  <a class="nhsuk-tabs__tab" href="#allergies">
+                                      Allergy Intolerance
+                                  </a>
+                              </li>
                              <li class="nhsuk-tabs__list-item">
                                  <a class="nhsuk-tabs__tab" href="#documents">
                                      Documents
@@ -73,6 +78,12 @@
                              <div>
                                  <h2 class="">Encounters</h2>
                                  @Html.Partial("Encounters", @Model.Response.Encounters)
+                             </div>
+                         </div>
+                         <div class="nhsuk-tabs__panel" id="allergies">
+                             <div>
+                                 <h2 class="">Allergy Intolerance</h2>
+                                 @Html.Partial("AllergyIntolerance", @Model.Response.AllergyIntolerances)
                              </div>
                          </div>
                          <div class="nhsuk-tabs__panel" id="documents">
