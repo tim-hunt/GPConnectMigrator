@@ -1,0 +1,21 @@
+@using Hl7.Fhir.Model
+@using GPMigratorApp.GPConnect.Helpers
+@model GPMigratorApp.DTOs.AddressDTO
+
+<dd class="nhsuk-summary-list__value">
+
+    <p>@Model.HouseNameFlatNumber</p>
+    <p>@Model.NumberAndStreet</p>
+    <p>@Model.Village</p>
+    <p>@Model.Town</p>
+    <p>@Model.Postcode</p>
+    <p>@Model.County</p>
+    @if (@Model.From is not null)
+    {
+        <p>From: @Model.From</p>
+    }
+    @if (@Model.To is not null)
+    {
+        <p>To: @Model.To</p>
+    }
+</dd>

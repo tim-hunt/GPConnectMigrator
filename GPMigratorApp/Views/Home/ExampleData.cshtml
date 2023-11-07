@@ -1,0 +1,135 @@
+﻿@using Newtonsoft.Json
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+<div class="nhsuk-width-container">
+
+
+    <h1 class="app-page-heading">Example Data</h1>
+    <table role="table" class="nhsuk-table-responsive">
+        <thead role="rowgroup" class="nhsuk-table__head">
+        <tr role="row">
+            <th role="columnheader" class="" scope="col">
+                Id
+            </th>
+            <th role="columnheader" class="" scope="col">
+                NHS number
+            </th>
+            <th role="columnheader" class="" scope="col">
+                Date of birth
+            </th>
+            <th role="columnheader" class="" scope="col">
+                Title
+            </th>
+            <th role="columnheader" class="" scope="col">
+                Given name
+            </th>
+            <th role="columnheader" class="" scope="col">
+                Family name
+            </th>
+            <th role="columnheader" class="" scope="col">
+                Gender
+            </th>
+            <th role="columnheader" class="" scope="col">
+                Notes
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>1</td><td>9690937278</td><td>11-Dec-1938</td><td>Mr</td><td>Lucien</td><td>Samual</td><td>Male</td><td></td>
+        </tr>
+        <tr>
+            <td>2</td><td>9690937286</td><td>21-Apr-1925</td><td>Mr</td><td>Horace</td><td>Skelly</td><td>Male</td><td></td>
+        </tr>
+        <tr>
+            <td>3</td><td>9690937294</td><td>17-Mar-1936</td><td>Mr</td><td>Samuel</td><td>Heslby</td><td>Male</td><td></td>
+        </tr>
+        <tr>
+            <td>4</td><td>9690937308</td><td>04-Jul-1925</td><td>Mr</td><td>West</td><td>Crank</td><td>Male</td><td></td>
+        </tr>
+        <tr>
+            <td>5</td><td>9690937375</td><td>10-Mar-1928</td><td>Mrs</td><td>Rosa</td><td>Lobb</td><td>Female</td><td></td>
+        </tr>
+        <tr>
+            <td>6</td><td>9690937383</td><td>14-Jun-1953</td><td>Ms</td><td>Angela</td><td>Doulby</td><td>Female</td><td></td>
+        </tr>
+        <tr>
+            <td>7</td><td>9690937391</td><td>30-Jun-1953</td><td>Mrs</td><td>Mina</td><td>Bailey</td><td>Female</td><td></td>
+        </tr>
+        <tr>
+            <td>8</td><td>9690937405</td><td>20-Oct-1929</td><td>Mrs</td><td>Winnie</td><td>Pring</td><td>Female</td><td></td>
+        </tr>
+        <tr>
+            <td>9</td><td>9690938533</td><td>09-Sep-2000</td><td>Mrs</td><td>Anita</td><td>Clay</td><td>Female</td><td>Patient has S flag</td>
+        </tr>
+        <tr>
+            <td>10</td><td>9690938541</td><td>28-Mar-1960</td><td>Ms</td><td>Tania</td><td>Reeves</td><td>Female</td><td>Patient has S flag</td>
+        </tr>
+        <tr>
+            <td>11</td><td>9690938622</td><td>28-Nov-1978</td><td>Mrs</td><td>Alexi</td><td>Horn</td><td>Female</td><td></td>
+        </tr>
+        <tr>
+            <td>12</td><td>9690938614</td><td>17-Dec-1965</td><td>Miss</td><td>Elsa</td><td>Leary</td><td>Female</td><td></td>
+        </tr>
+        <tr>
+            <td>13</td><td>9690938096</td><td>16-Mar-2001</td><td>Ms</td><td>Cecile</td><td>Beston</td><td>Female</td><td></td>
+        </tr>
+        <tr>
+            <td>15</td><td>9690938576</td><td>16-Sep-1972</td><td>Mrs</td><td>Dora</td><td>McCain</td><td>Female</td><td>Patient has S flag</td>
+        </tr>
+        <tr>
+            <td>16</td><td>9690938118</td><td>24-Nov-1983</td><td>Mrs</td><td>Sibyl</td><td>Craine</td><td>Female</td><td></td>
+        </tr>
+        <tr>
+            <td>17</td><td>9690938126</td><td>09-Jun-1984</td><td>Mrs</td><td>Doris</td><td>Bourke</td><td>Female</td><td></td>
+        </tr>
+        <tr>
+            <td>18</td><td>9690938681</td><td>03-Feb-1968</td><td>Mr</td><td>James</td><td>Rooney</td><td>Male</td><td>Patient deceased</td>
+        </tr>
+        <tr>
+            <td>20</td><td>9690938134</td><td>06-Jul-1983</td><td>Ms</td><td>Lori</td><td>Gildea</td><td>Female</td><td></td>
+        </tr>
+        <tr>
+            <td>21</td><td>9690938142</td><td>13-Apr-1999</td><td>Miss</td><td>Eve</td><td>Buck</td><td>Female</td><td>Patient inactive</td>
+        </tr>
+        <tr>
+            <td>22</td><td>9690937316</td><td>17-Sep-1950</td><td>Mr</td><td>Dean</td><td>Pye</td><td>Male</td><td>Access Record Structured - meds only</td>
+        </tr>
+        <tr>
+            <td>23</td><td>9690937324</td><td>26-Nov-1927</td><td>Mr</td><td>Morris</td><td>Oakes</td><td>Male</td><td>Access Record Structured - meds only</td>
+        </tr>
+        <tr>
+            <td>24</td><td>9690937332</td><td>12-Oct-1947</td><td>Mr</td><td>Samuel</td><td>Beyer</td><td>Male</td><td>Access Record Structured - allergies only</td>
+        </tr>
+        <tr>
+            <td>28</td><td>9690938207</td><td>14-Jun-1972</td><td>Ms</td><td>Jenna</td><td>Gillon</td><td>Female</td><td>Access Record Structured - Rich Immunizations only</td>
+        </tr>
+        <tr>
+            <td>29</td><td>9690938215</td><td>15-Dec-1964</td><td>Ms</td><td>Gina</td><td>WOOKEY</td><td>Female</td><td>Access Record Structured - Rich Uncategorised only</td>
+        </tr>
+        <tr>
+            <td>30</td><td>9690937367</td><td>28-Aug-1946</td><td>Mr</td><td>lloyd</td><td>LEWIN</td><td>Male</td><td>Access Record Structured - Rich Investigations only</td>
+        </tr>
+        <tr>
+            <td>31</td><td>9690938223</td><td>05-Jan-1978</td><td>Mrs</td><td>Susan</td><td>Grace</td><td>Female</td><td>Access Record Structured - Rich Consultations only</td>
+        </tr>
+        <tr>
+            <td>32</td><td>9690937340</td><td>08-Jun-1947</td><td>Mr</td><td>Ray</td><td>MULLEN</td><td>Male</td><td>Access Record Structured - Rich Problems only</td>
+        </tr>
+        <tr>
+            <td>33</td><td>9690938088</td><td>31-Jul-1955</td><td>Mr</td><td>Ivor</td><td>CAVE</td><td>Male</td><td>Access Record Structured - EMIS Docs consolidated</td>
+        </tr>
+        <tr>
+            <td>34</td><td>9690937693</td><td>18-Dec-2014</td><td>Ms</td><td>Elaine</td><td>Day</td><td>Female</td><td>Access Record Structured - Rich Referrals only</td>
+        </tr>
+        <tr>
+            <td>35</td><td>9690938770</td><td>30-Oct-1945</td><td>Mr</td><td>Josh</td><td>HYLAND</td><td>Male</td><td>Access Record Structured - Rich Diary Entries</td>
+        </tr>
+
+        </tbody>
+    </table>
+
+
+</div>

@@ -8,12 +8,10 @@ public class EncounterDTO
     public string Type { get; set; }
     
     public string? PatientGuid { get; set; }
-    public string PerformerGuid { get; set; }
-    public string PerformerCode { get; set; }
-    public string PerformerDisplay { get; set; }
-    public string RecorderGuid { get; set; }
-    public string RecorderCode { get; set; }
-    public string RecorderDisplay { get; set; }
+    
+    public PracticionerDTO? Performer{ get; set; }
+
+    public PracticionerDTO? Recorder { get; set; }
     public DateTime PeriodStart { get; set; }
     public DateTime PeriodEnd { get; set; }
     public decimal? DurationValue { get; set; }

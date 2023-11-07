@@ -1,0 +1,126 @@
+@using Hl7.Fhir.Model
+@using GPMigratorApp.GPConnect.Helpers
+@model IEnumerable<GPMigratorApp.DTOs.PracticionerDTO>
+
+@foreach (var practicioner in @Model)
+{
+    <dl class="nhsuk-summary-list">
+
+        <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">
+                Name
+            </dt>
+            <dd class="nhsuk-summary-list__value">
+                @practicioner.Title @practicioner.GivenName @practicioner.Surname
+            </dd>
+        </div>
+        <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">
+                Address
+            </dt>
+            @Html.Partial("Address", @practicioner.Address)
+        </div>
+        <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">
+                SDSUserId
+            </dt>
+            <dd class="nhsuk-summary-list__value">
+                @practicioner.SdsUserId
+            </dd>
+        </div>
+        <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">
+                SDSRoleProfileId
+            </dt>
+            <dd class="nhsuk-summary-list__value">
+                @practicioner.SdsRoleProfileId
+            </dd>
+        </div>
+        <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">
+                Gender
+            </dt>
+            <dd class="nhsuk-summary-list__value">
+                @practicioner.Sex
+            </dd>
+        </div>
+        <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">
+                DateOfBirth
+            </dt>
+            <dd class="nhsuk-summary-list__value">
+                @practicioner.DateOfBirthUtc
+            </dd>
+        </div>
+        <h3>Qualifications</h3>
+        @foreach (var qualification in @practicioner.Qualifications)
+        {
+            <div class="nhsuk-summary-list__row">
+                <dt class="nhsuk-summary-list__key">
+                    Type
+                </dt>
+                <dd class="nhsuk-summary-list__value">
+                    @qualification.Type
+                </dd>
+            </div>
+            <div class="nhsuk-summary-list__row">
+                <dt class="nhsuk-summary-list__key">
+                    Value
+                </dt>
+                <dd class="nhsuk-summary-list__value">
+                    @qualification.Value
+                </dd>
+            </div>
+            <div class="nhsuk-summary-list__row">
+                <dt class="nhsuk-summary-list__key">
+                    Use
+                </dt>
+                <dd class="nhsuk-summary-list__value">
+                    @qualification.Use
+                </dd>
+            </div>
+            <div class="nhsuk-summary-list__row">
+                <dt class="nhsuk-summary-list__key">
+                    System
+                </dt>
+                <dd class="nhsuk-summary-list__value">
+                    @qualification.System
+                </dd>
+            </div>
+            <div class="nhsuk-summary-list__row">
+                <dt class="nhsuk-summary-list__key">
+                    Valid From
+                </dt>
+                <dd class="nhsuk-summary-list__value">
+                    @qualification.From
+                </dd>
+            </div>
+            <div class="nhsuk-summary-list__row">
+                <dt class="nhsuk-summary-list__key">
+                    Valid To
+                </dt>
+                <dd class="nhsuk-summary-list__value">
+                    @qualification.To
+                </dd>
+            </div>
+            <div class="nhsuk-summary-list__row">
+                <dt class="nhsuk-summary-list__key">
+                    Issuer
+                </dt>
+                <dd class="nhsuk-summary-list__value">
+                    @qualification.Issuer?.ODSCode
+                </dd>
+            </div>
+            <div class="nhsuk-summary-list__row">
+                <dt class="nhsuk-summary-list__key">
+                    Assigner
+                </dt>
+                <dd class="nhsuk-summary-list__value">
+                    @qualification.Assigner?.ODSCode
+                </dd>
+            </div>
+
+        }
+
+    </dl>
+}

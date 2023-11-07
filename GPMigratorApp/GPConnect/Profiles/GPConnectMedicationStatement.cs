@@ -1,3 +1,4 @@
+using GPConnect.Provider.AcceptanceTests.Helpers;
 using GPConnect.Provider.AcceptanceTests.Http;
 using GPMigratorApp.DTOs;
 using GPMigratorApp.GPConnect.Helpers;
@@ -7,7 +8,7 @@ namespace GPMigratorApp.GPConnect.Profiles;
 
 public class GPConnectMedicationStatement : MedicationStatement
 {
-    private List<Practitioner>? _practicioners;
+    private IEnumerable<PracticionerDTO>? _practicioners;
     private IEnumerable<GPConnectMedicationRequest>? _medicationRequests;
     private IEnumerable<GPConnectMedication>? _medications;
     
@@ -28,13 +29,13 @@ public class GPConnectMedicationStatement : MedicationStatement
             PrescribingAgencyCode = PrescribingAgency?.Code,
             PrescribingAgencyDisplay = PrescribingAgency.Display,
             LastIssueDateUTC = LastIssueDate,
-            DateAssertedUTC = DateTime.Parse(DateAsserted),
+            DateAssertedUTC = TimePeriodHelper.ParseFhirDateTime(DateAsserted),
             DosageLastChanged = DosageLastChanged,
             MedicationRequest = MedicationRequest.GetDTO(),
             CrossCareIdentifier = CrossCareIdentifier,
             Medication = ReferencedMedication.GetDTO(),
-            EffectivePeriodStart = DateTime.Parse(EffectivePeriod.Start),
-            EffectivePeriodEnd = DateTime.Parse(EffectivePeriod.End),
+            EffectivePeriodStart = TimePeriodHelper.ParseFhirDateTime(EffectivePeriod.Start),
+            EffectivePeriodEnd = TimePeriodHelper.ParseFhirDateTime(EffectivePeriod.End),
             PatientGuid = ReferenceHelper.GetId(Subject.Reference),
             Taken = Taken.ToString(),
             DosageText = DosageInstructions.Text,

@@ -1,4 +1,5 @@
 using System.Runtime.Serialization;
+using GPConnect.Provider.AcceptanceTests.Helpers;
 using GPConnect.Provider.AcceptanceTests.Http;
 using GPMigratorApp.DTOs;
 using GPMigratorApp.GPConnect.Helpers;
@@ -13,7 +14,7 @@ namespace GPMigratorApp.GPConnect.Profiles;
 [FhirType("MedicationRequest", "http://hl7.org/fhir/StructureDefinition/MedicationRequest", IsResource = true)]
 public class GPConnectMedicationRequest : MedicationRequest
 {
-    private List<Practitioner>? _practicioners;
+    private IEnumerable<PracticionerDTO>? _practicioners;
     private IEnumerable<GPConnectMedication>? _medications;
 
     public GPConnectMedicationRequest(MedicationRequest medicationRequest, FhirResponse bundle)
@@ -37,8 +38,8 @@ public class GPConnectMedicationRequest : MedicationRequest
         dto.Status = Status.ToString();
         dto.Intent = Intent.ToString();
         dto.PatientGuid = Patient;
-        dto.AuthoredOnUTC = DateTime.Parse(AuthoredOn);
-        dto.RecorderGuid = ReferenceHelper.GetId(Recorder.Reference);
+        dto.AuthoredOnUTC = TimePeriodHelper.ParseFhirDateTime(AuthoredOn);
+        dto.Recorder = GetRecorder;
 
         var dosageInstruction = DosageInstruction.FirstOrDefault();
         if (dosageInstruction is not null)
@@ -46,16 +47,21 @@ public class GPConnectMedicationRequest : MedicationRequest
             dto.DosageInstructionText = dosageInstruction.Text;
             dto.DosageInstructionPatientInstruction = dosageInstruction.PatientInstruction;
         }
-        dto.MedicationDispenseRequest = new MedicationDispenseRequest
+
+        if (DispenseRequest is not null)
         {
-            ValidityPeriodStart = DateTime.Parse(DispenseRequest.ValidityPeriod.Start),
-            ValidityPeriodEnd = DateTime.Parse(DispenseRequest.ValidityPeriod.End),
-            Quantity = DispenseRequestQuantity,
-            ExpectedSupplyDurationValue = DispenseRequest.ExpectedSupplyDuration.Value,
-            ExpectedSupplyDurationUnit = DispenseRequest.ExpectedSupplyDuration.Unit,
-            ExpectedSupplyDurationCode = DispenseRequest.ExpectedSupplyDuration.Code,
-            PerformerGuid =  ReferenceHelper.GetId(DispenseRequest.Performer.Reference)
-        };
+            dto.MedicationDispenseRequest = new MedicationDispenseRequest
+            {
+                ValidityPeriodStart = TimePeriodHelper.ParseFhirDateTime(DispenseRequest.ValidityPeriod.Start),
+                ValidityPeriodEnd = TimePeriodHelper.ParseFhirDateTime(DispenseRequest.ValidityPeriod.End),
+                Quantity = DispenseRequestQuantity,
+                ExpectedSupplyDurationValue = DispenseRequest.ExpectedSupplyDuration.Value,
+                ExpectedSupplyDurationUnit = DispenseRequest.ExpectedSupplyDuration.Unit,
+                ExpectedSupplyDurationCode = DispenseRequest.ExpectedSupplyDuration.Code,
+                PerformerGuid = ReferenceHelper.GetId(DispenseRequest.Performer?.Reference)
+            };
+        }
+
         return dto;
     }
 
@@ -82,9 +88,9 @@ public class GPConnectMedicationRequest : MedicationRequest
     }
 
 
-    public Practitioner? GetRecorder
+    public PracticionerDTO? GetRecorder
     {
-        get { return _practicioners?.FirstOrDefault(x => x.Id == ReferenceHelper.GetId(Recorder.Reference)); }
+        get { return _practicioners?.FirstOrDefault(x => x.SdsUserId == ReferenceHelper.GetId(Recorder.Reference)); }
     }
 
     public GPConnectMedication? ReferencedMedication
@@ -141,8 +147,11 @@ public class GPConnectMedicationRequest : MedicationRequest
             {
                 var numberOfRepeatPrescriptionsAllowed = repeatInformation.Extension.FirstOrDefault(x =>
                     x.Url == "numberOfRepeatPrescriptionsAllowed");
-                var value = numberOfRepeatPrescriptionsAllowed.Value.FirstOrDefault().Value;
-                return (int)value;
+                if (numberOfRepeatPrescriptionsAllowed is not null)
+                {
+                    var value = numberOfRepeatPrescriptionsAllowed.Value.FirstOrDefault().Value;
+                    return (int) value;
+                }
             }
             return null;
         }

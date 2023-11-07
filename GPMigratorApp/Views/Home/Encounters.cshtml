@@ -1,6 +1,6 @@
 @using Hl7.Fhir.Model
 @using GPMigratorApp.GPConnect.Helpers
-@model IEnumerable<GPMigratorApp.GPConnect.Profiles.GPConnectEncounter>
+@model IEnumerable<GPMigratorApp.DTOs.EncounterDTO>
 @foreach (var encounter in @Model)
 {
     <dl class="nhsuk-summary-list">
@@ -10,7 +10,7 @@
                 Id
             </dt>
             <dd class="nhsuk-summary-list__value">
-                @encounter.Id
+                @encounter.Guid
             </dd>
         </div>
         <div class="nhsuk-summary-list__row">
@@ -18,7 +18,7 @@
                 Details
             </dt>
             <dd class="nhsuk-summary-list__value">
-                @encounter.Type.FirstOrDefault()?.Text
+                @encounter.Type
             </dd>
         </div>
 
@@ -27,16 +27,18 @@
                 Performer
             </dt>
             @{
-                var performer = encounter.PrimaryPerformer()?.Name[0];
                 <dd class="nhsuk-summary-list__value">
-                    @performer?.Prefix.FirstOrDefault()
+                    @encounter.Performer?.Title @encounter.Performer?.GivenName
 
-                    @foreach (var name in @performer?.Given)
+                    @if (encounter.Performer?.MiddleNames is not null)
                     {
-                        @name
+                        @foreach (var name in @encounter.Performer.MiddleNames)
+                        {
+                            @name
+                        }
                     }
 
-                    @performer.Family
+                    @encounter.Performer?.Surname
                 </dd>
             }
         </div>
@@ -45,16 +47,18 @@
                 Recorder
             </dt>
             @{
-                var recorder = encounter.Recorder()?.Name[0];
                 <dd class="nhsuk-summary-list__value">
-                    @recorder?.Prefix.FirstOrDefault()
+                    @encounter.Recorder?.Title @encounter.Recorder?.GivenName
 
-                    @foreach (var name in @recorder?.Given)
+                    @if (encounter.Recorder?.MiddleNames is not null)
                     {
-                        @name
+                        @foreach (var name in @encounter.Recorder.MiddleNames)
+                        {
+                            @name
+                        }
                     }
 
-                    @recorder.Family
+                    @encounter.Recorder?.Surname
                 </dd>
             }
         </div>
@@ -63,7 +67,7 @@
                 Date From
             </dt>
             <dd class="nhsuk-summary-list__value">
-                @DateTime.Parse(@encounter.Period.StartElement.Value).ToString("dd/MM/yyyy hh:mm")
+                @encounter.PeriodStart.ToString("dd/MM/yyyy hh:mm")
             </dd>
         </div>
         <div class="nhsuk-summary-list__row">
@@ -71,7 +75,7 @@
                 Date To
             </dt>
             <dd class="nhsuk-summary-list__value">
-                @DateTime.Parse(@encounter.Period.EndElement.Value).ToString("dd/MM/yyyy hh:mm")
+                @encounter.PeriodEnd.ToString("dd/MM/yyyy hh:mm")
             </dd>
         </div>
         <div class="nhsuk-summary-list__row">
@@ -79,7 +83,7 @@
                 Duration
             </dt>
             <dd class="nhsuk-summary-list__value">
-                @encounter.Length.Value @encounter.Length.Unit
+                @encounter.DurationValue @encounter.DurationUnit
             </dd>
         </div>
         <div class="nhsuk-summary-list__row">

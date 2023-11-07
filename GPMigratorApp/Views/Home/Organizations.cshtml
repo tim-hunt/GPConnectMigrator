@@ -1,0 +1,76 @@
+@using Hl7.Fhir.Model
+@using GPMigratorApp.GPConnect.Helpers
+@using Microsoft.AspNetCore.Mvc.Rendering
+@model IEnumerable<GPMigratorApp.DTOs.OrganizationDTO>
+
+@foreach (var organization in @Model)
+{
+    var org = organization;
+    <dl class="nhsuk-summary-list">
+
+        <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">
+                ODSCode
+            </dt>
+            <dd class="nhsuk-summary-list__value">
+                @org.ODSCode
+            </dd>
+        </div>
+        <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">
+                Name
+            </dt>
+            <dd class="nhsuk-summary-list__value">
+                @org.Name
+            </dd>
+        </div>
+        <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">
+                Telecom
+            </dt>
+            <dd class="nhsuk-summary-list__value">
+                @org.Telecom
+            </dd>
+        </div>
+        <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">
+                Type
+            </dt>
+            <dd class="nhsuk-summary-list__value">
+                @org.Type
+            </dd>
+        </div>
+        <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">
+                Address
+            </dt>
+            @Html.Partial("Address", @org.Address)
+        </div>
+        @if (@org.PartOf is not null)
+        {
+            <div class="nhsuk-summary-list__row">
+                <dt class="nhsuk-summary-list__key">
+                    Part of
+                </dt>
+                @org.PartOf.Name
+            </div>
+        }
+         @if (@org.Contact is not null)
+                {
+                    <div class="nhsuk-summary-list__row">
+                        <dt class="nhsuk-summary-list__key">
+                            Contact
+                        </dt>
+                        @org.Contact.Title @org.Contact.GivenName @org.Contact.Surname
+                         @if (@org.Contact.Address is not null)
+                         {
+                             <dt class="nhsuk-summary-list__key">
+                                 Contact Address
+                             </dt>
+                             @Html.Partial("Address", @org.Contact.Address)
+                         }
+                    </div>
+                }
+
+    </dl>
+}

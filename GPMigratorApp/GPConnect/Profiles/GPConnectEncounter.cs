@@ -12,13 +12,14 @@ namespace GPMigratorApp.GPConnect.Profiles;
 [Serializable]
 [DataContract]
 [FhirType("Encounter","http://hl7.org/fhir/StructureDefinition/Encounter", IsResource=true)]
-public class GPConnectEncounter : Encounter
+public class GPConnectEncounter
 {
+    private Encounter _encounter;
     private EpisodeOfCare? _episodeOfCare;
-    private List<Practitioner>? _practicioners;
+    private IEnumerable<PracticionerDTO>? _practicioners;
     public GPConnectEncounter(Encounter encounter, FhirResponse bundle)
     {
-        InitInhertedProperties(encounter);
+        _encounter = encounter;
         _episodeOfCare = bundle.EpisodesOfCare?.FirstOrDefault(x => x.Id == encounter.EpisodeOfCare?.FirstOrDefault()?.Reference);
         _practicioners = bundle.Practitioners;
     }
@@ -27,18 +28,18 @@ public class GPConnectEncounter : Encounter
     {
         var dto = new EncounterDTO
         {
-            Guid = Id,
+            Guid = _encounter.Id,
             Identifier = DataIdentifier,
-            Status = Status.ToString(),
+            Status = _encounter.Status.ToString(),
             Type = TypeText,
             PatientGuid = Patient(),
-            PerformerGuid = PrimaryPerformer().Id,
-            RecorderGuid = Recorder().Id,
-            PeriodStart = DateTime.Parse(Period.Start),
-            PeriodEnd = DateTime.Parse(Period.End),
-            DurationValue = Length.Value,
-            DurationUnit = Length.Unit,
-            DurationCode = Length.Code
+            Performer = PrimaryPerformer(),
+            Recorder = Recorder(),
+            PeriodStart = DateTime.Parse(_encounter.Period.Start),
+            PeriodEnd = DateTime.Parse(_encounter.Period.End),
+            DurationValue = _encounter.Length.Value,
+            DurationUnit = _encounter.Length.Unit,
+            DurationCode = _encounter.Length.Code
         };
         return dto;
     }
@@ -47,22 +48,22 @@ public class GPConnectEncounter : Encounter
     
     public string? Patient()
     {
-        return ReferenceHelper.GetId(this.Subject.Reference);
+        return ReferenceHelper.GetId(_encounter.Subject.Reference);
     }
-    public Practitioner? PrimaryPerformer()
+    public PracticionerDTO? PrimaryPerformer()
     {
-        var reference = Participant
+        var reference = _encounter.Participant
             .FirstOrDefault(x => x.Type.Any(y => y.Coding.Any(z => z.Code == "PPRF")))
             ?.Individual
             .Reference;
-        return _practicioners?.FirstOrDefault(x => x.Id == ReferenceHelper.GetId(reference));
+        return _practicioners?.FirstOrDefault(x => x.Reference == ReferenceHelper.GetId(reference));
     }
 
     public String? DataIdentifier
     {
         get
         {
-            var identifier = Identifier.FirstOrDefault(x => x.System == "https://provider.nhs.uk/data-identifier");
+            var identifier = _encounter.Identifier.FirstOrDefault(x => x.System == "https://provider.nhs.uk/data-identifier");
             if (identifier is not null)
             {
                 return identifier.Value;
@@ -75,30 +76,18 @@ public class GPConnectEncounter : Encounter
     {
         get
         {
-            return Type.FirstOrDefault().Text;
+            return _encounter.Type.FirstOrDefault().Text;
         }
     }
     
-    public Practitioner? Recorder()
+    public PracticionerDTO? Recorder()
     {
-        var reference = Participant
+        var reference = _encounter.Participant
             .FirstOrDefault(x => x.Type.Any(y => y.Coding.Any(z => z.Code == "REC")))
             ?.Individual
             .Reference;
         
-        return _practicioners?.FirstOrDefault(x => x.Id == ReferenceHelper.GetId(reference));
+        return _practicioners?.FirstOrDefault(x => x.Reference == ReferenceHelper.GetId(reference));
     }
     
-    private void InitInhertedProperties (object encounter)
-    {
-        foreach (var propertyInfo in encounter.GetType().GetProperties())
-        {
-            var props = typeof(Encounter).GetProperties().Where(p => !p.GetIndexParameters().Any());
-            foreach (var prop in props)
-            {
-                if (prop.CanWrite)
-                    prop.SetValue(this, prop.GetValue(encounter));
-            }
-        }
-    }
 }

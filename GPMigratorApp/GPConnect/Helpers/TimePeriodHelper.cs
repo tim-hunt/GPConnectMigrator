@@ -85,6 +85,14 @@
             return GetTimePeriod(startDate.ToString(startDateFormat), null);
         }
 
+        public static DateTime? ParseFhirDateTime(string fhirDateTime)
+        {
+            var hasDateTime = DateTime.TryParse(fhirDateTime, out var dateTime);
+            if (hasDateTime)
+                return dateTime;
+            return null;
+        }
+
         public static Period GetTimePeriodEndDateOnlyFormatted(string endDateFormat)
         {
             var endDate = DateTime.UtcNow;

@@ -1,4 +1,5 @@
-﻿using GPMigratorApp.GPConnect.Profiles;
+﻿using GPMigratorApp.DTOs;
+using GPMigratorApp.GPConnect.Profiles;
 using Hl7.Fhir.Introspection;
 using Hl7.Fhir.Serialization;
 
@@ -16,11 +17,10 @@ namespace GPConnect.Provider.AcceptanceTests.Http
 
         public List<Bundle.EntryComponent> Entries => ((Bundle)Resource).Entry;
 
-        public IEnumerable<GPConnectPatient> Patients => GetResources<Patient>(ResourceType.Patient).Select(x=> new GPConnectPatient(x));
-        public List<Organization> Organizations => GetResources<Organization>(ResourceType.Organization);
+        public IEnumerable<PatientDTO> Patients => GetResources<Patient>(ResourceType.Patient).Select(x=> new GPConnectPatient(x).GetDTO());
         public List<Composition> Compositions => GetResources<Composition>(ResourceType.Composition);
         public List<Device> Devices => GetResources<Device>(ResourceType.Device);
-        public List<Practitioner> Practitioners => GetResources<Practitioner>(ResourceType.Practitioner);
+
         public List<Location> Locations => GetResources<Location>(ResourceType.Location);
         public Bundle Bundle => (Bundle)Resource;
         public List<Slot> Slots => GetResources<Slot>(ResourceType.Slot);
@@ -29,13 +29,14 @@ namespace GPConnect.Provider.AcceptanceTests.Http
         public List<CapabilityStatement> CapabilityStatements => GetResources<CapabilityStatement>(ResourceType.CapabilityStatement);
         public IEnumerable<GpConnectAllergyIntolerance> AllergyIntolerances => GetResources<AllergyIntolerance>(ResourceType.AllergyIntolerance).Select(x => new GpConnectAllergyIntolerance(x, this));
         public IEnumerable<GPConnectMedication> Medications => GetResources<Medication>(ResourceType.Medication).Select(x => new GPConnectMedication(x, this));
-        public IEnumerable<GPConnectMedicationStatement> MedicationStatements => GetResources<MedicationStatement>(ResourceType.MedicationStatement).Select(x => new GPConnectMedicationStatement(x, this));
+        public IEnumerable<MedicationStatementDTO> MedicationStatements => GetResources<MedicationStatement>(ResourceType.MedicationStatement).Select(x => new GPConnectMedicationStatement(x, this).GetDTO());
         public IEnumerable<GPConnectMedicationRequest> MedicationRequests => GetResources<MedicationRequest>(ResourceType.MedicationRequest).Select(x => new GPConnectMedicationRequest(x, this));
         public List<DocumentReference> Documents => GetResources<DocumentReference>(ResourceType.DocumentReference);
         public List<EpisodeOfCare> EpisodesOfCare => GetResources<EpisodeOfCare>(ResourceType.EpisodeOfCare);
-        public IEnumerable<GPConnectEncounter> Encounters => GetResources<Encounter>(ResourceType.Encounter).Select(x=> new GPConnectEncounter(x, this));
-
+        public IEnumerable<EncounterDTO> Encounters => GetResources<Encounter>(ResourceType.Encounter).Select(x=> new GPConnectEncounter(x, this).GetDTO());
+        public IEnumerable<OrganizationDTO> Organizations => GetResources<Organization>(ResourceType.Organization).Select(x=> new GPConnectOrganization(x).GetDTO());
         public List<List> Lists => GetResources<List>(ResourceType.List);
+        public IEnumerable<PracticionerDTO> Practitioners => GetResources<Practitioner>(ResourceType.Practitioner).Select(x=> new GPConnectPracticioner(x,Organizations).GetDTO());
 
         private List<T> GetResources<T>(ResourceType resourceType) where T : Resource
         {

@@ -39,11 +39,8 @@ public class GPConnectPatient : Patient
         dto.NhsNumber = NHSNumber?.Value;
         dto.NHSNumberStatus = NHSNumberVerified?.Code;
         dto.Ethnicity = Ethnicity?.Code;
-        dto.Language = Language?.Code;
+        dto.Communication = new GPConnectCommunication(this.Extension).GetDTO();
         dto.Religion = Religion?.Code;
-        dto.PreferredMethodOfCommunication = PreferredMethodOfCommunication?.Code;
-        dto.CommunicationPreficiency = CommunicationProficiency?.Code;
-        dto.InterpreterRequired = InterpreterRequired;
         dto.HomeAddress = new AddressDTO(HomeAddress);
         dto.OtherAddresses = OtherAddresses?.Select(x => new AddressDTO(x));
         dto.Active = Active;
@@ -54,7 +51,6 @@ public class GPConnectPatient : Patient
     {
         get
         {
-            var y = this.GeneralPractitioner.FirstOrDefault().ReferenceElement.Value;
             var registration = this.Extension.FirstOrDefault(x => x.Url == "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-RegistrationDetails-1");
             var ext1 = registration?.Extension.FirstOrDefault(x => x.Url == "registrationPeriod");
             var registered = (Period) ext1?.Value;

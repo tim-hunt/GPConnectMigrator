@@ -5,8 +5,9 @@ using System.Text.Json;
 using FutureNHS.Api.Configuration;
 using GPMigratorApp.GPConnect;
 using Hl7.Fhir.Model;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
+using Microsoft.IdentityModel.Tokens;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace GPMigratorApp.Controllers
@@ -30,24 +31,57 @@ namespace GPMigratorApp.Controllers
             var search = new Search();
             return View(search);
         }
+        
+        public IActionResult ExampleData()
+        {
+            return View();
+        }
 
         [HttpPost]
         public async Task<IActionResult> IndexPost(Search search)
         {
+            var watch = new System.Diagnostics.Stopwatch();
+            
+            watch.Start();
+            
+            if (search.NhsNumber.IsNullOrEmpty())
+            {
+                return View("Index", search);
+            }
+
+            search.NhsNumber = search.NhsNumber.Trim();
+
+            if (search.NhsNumber == "9465698490")
+            {
+                search.Response = await _gpConnectService.GetLocalFile();
+                watch.Stop();
+                search.TimeTaken = watch.ElapsedMilliseconds;
+                return View("Index",search);
+            }
+
+
             var request = CreateRequest(search.NhsNumber.Trim());
 
             var options = new JsonSerializerOptions();
             options.WriteIndented = true;
             
             string jsonString = JsonSerializer.Serialize(request);
-            
-            var result = await _gpConnectService.SendRequestAsync(HttpMethod.Post,
-                "/Patient/$gpc.getstructuredrecord", Guid.NewGuid().ToString(), _appSettings.ConsumerASID,
-                _appSettings.ProviderASID,JsonContent.Create(request));
 
-            search.Request = request;
-            search.Response = result;
-            
+            try
+            {
+                var result = await _gpConnectService.SendRequestAsync(HttpMethod.Post,
+                    "/Patient/$gpc.getstructuredrecord", Guid.NewGuid().ToString(), _appSettings.ConsumerASID,
+                    _appSettings.ProviderASID, JsonContent.Create(request));
+
+                search.Request = request;
+                search.Response = result;
+            }
+            catch (BadHttpRequestException exception)
+            {
+                ViewData.ModelState.AddModelError("NhsNumber", exception.Message);
+            }
+            watch.Stop();
+            search.TimeTaken = watch.ElapsedMilliseconds;
             return View("Index",search);
         }
 

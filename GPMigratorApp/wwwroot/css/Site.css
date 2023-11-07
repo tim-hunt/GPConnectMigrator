@@ -41,4 +41,17 @@ body {
   min-height: 600px;
 }
 
+.nhsuk-search__input--error {
+  border: 2px solid #d5281b;
+}
+
+.nhsuk-form-group--error {
+  margin: auto;
+  max-width: fit-content;
+}
+
+.nhsuk-header__navigation-list {
+  justify-content: flex-start;
+}
+
 /*# sourceMappingURL=Site.css.map */

@@ -38,10 +38,9 @@ public class PatientDTO
     public string? ExternalUsualGP { get; set; }
     public string? ExternalUsualGPOrganisation { get; set; }
     public string? ProcessingId { get; set; }
-    public string? Language { get; set; }
     public string? Ethnicity { get; set; }
     public string? Religion { get; set; }
-    public string? PreferredMethodOfCommunication{ get; set; }
-    public string? CommunicationPreficiency{ get; set; }
-    public bool? InterpreterRequired { get; set; }
+    
+    public List<CommunicationDTO>? Communication{ get; set; }
+
 }

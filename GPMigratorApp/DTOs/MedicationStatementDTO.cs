@@ -15,8 +15,8 @@ public class MedicationStatementDTO
     public string? CrossCareIdentifier { get; set; }
     public MedicationDTO Medication { get; set; }
     
-    public DateTime EffectivePeriodStart { get; set; }
-    public DateTime EffectivePeriodEnd { get; set; }
+    public DateTime? EffectivePeriodStart { get; set; }
+    public DateTime? EffectivePeriodEnd { get; set; }
     public string? PatientGuid { get; set; }
     
     public string? Taken { get; set; }

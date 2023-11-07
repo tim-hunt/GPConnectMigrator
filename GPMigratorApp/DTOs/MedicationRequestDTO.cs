@@ -13,8 +13,8 @@ public class MedicationRequestDTO
     public string? Intent { get; set; }
     public MedicationDTO Medication { get; set; }
     public string? PatientGuid { get; set; }
-    public DateTime AuthoredOnUTC { get; set; }
-    public string? RecorderGuid { get; set; }
+    public DateTime? AuthoredOnUTC { get; set; }
+    public PracticionerDTO? Recorder { get; set; }
     public string DosageInstructionText { get; set; }
     public string DosageInstructionPatientInstruction { get; set; }
     public MedicationDispenseRequest MedicationDispenseRequest { get; set; }
@@ -22,8 +22,8 @@ public class MedicationRequestDTO
 
 public class MedicationDispenseRequest
 {
-    public DateTime ValidityPeriodStart { get; set; }
-    public DateTime ValidityPeriodEnd { get; set; }
+    public DateTime? ValidityPeriodStart { get; set; }
+    public DateTime? ValidityPeriodEnd { get; set; }
     public string? Quantity { get; set; }
     public decimal? ExpectedSupplyDurationValue { get; set; }
     public string? ExpectedSupplyDurationUnit { get; set; }

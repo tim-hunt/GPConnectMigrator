@@ -10,4 +10,6 @@ public class Search
     public StructuredRecordRequest? Request { get; set; }
 
     public FhirResponse? Response { get; set; }
+    
+    public long TimeTaken { get; set; }
 }

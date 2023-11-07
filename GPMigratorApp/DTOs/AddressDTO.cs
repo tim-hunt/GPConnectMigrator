@@ -8,15 +8,18 @@ public class AddressDTO
 
     public AddressDTO(Address? address)
     {
-        Use = address.Use;
-        NumberAndStreet = address?.Line.FirstOrDefault();
-        Village = address?.Line.Skip(1).FirstOrDefault();
-        Town = address?.Line.Skip(2).FirstOrDefault();
-        County = address?.District;
-        County = address?.City;
-        Postcode = address?.PostalCode;
-        From = address.Start();
-        To = address.End();
+        if (address is not null)
+        {
+            Use = address.Use;
+            NumberAndStreet = address?.Line.FirstOrDefault();
+            Village = address?.Line.Skip(1).FirstOrDefault();
+            Town = address?.Line.Skip(2).FirstOrDefault();
+            County = address?.District;
+            County = address?.City;
+            Postcode = address?.PostalCode;
+            From = address.Start();
+            To = address.End();
+        }
     }
     public Hl7.Fhir.Model.Address.AddressUse? Use{ get; set; }
     public string? HouseNameFlatNumber { get; set; }
