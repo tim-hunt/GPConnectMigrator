@@ -36,7 +36,7 @@ public class GPConnectMedicationStatement : MedicationStatement
             Medication = ReferencedMedication.GetDTO(),
             EffectivePeriodStart = TimePeriodHelper.ParseFhirDateTime(EffectivePeriod.Start),
             EffectivePeriodEnd = TimePeriodHelper.ParseFhirDateTime(EffectivePeriod.End),
-            PatientGuid = ReferenceHelper.GetId(Subject.Reference),
+            PatientId = ReferenceHelper.GetId(Subject.Reference),
             Taken = Taken.ToString(),
             DosageText = DosageInstructions.Text,
             DosagePatientInstruction = DosageInstructions.PatientInstruction

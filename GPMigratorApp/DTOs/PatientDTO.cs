@@ -34,9 +34,8 @@ public class PatientDTO
     public MailAddress? EmailAddress { get; set; }
     public string? HomePhone { get; set; }
     public string? MobilePhone { get; set; }
-    public string? ExternalUsualGPGuid { get; set; }
-    public string? ExternalUsualGP { get; set; }
-    public string? ExternalUsualGPOrganisation { get; set; }
+    public PracticionerDTO? UsualGP { get; set; }
+    public OrganizationDTO ManagingOrganization{ get; set; }
     public string? ProcessingId { get; set; }
     public string? Ethnicity { get; set; }
     public string? Religion { get; set; }

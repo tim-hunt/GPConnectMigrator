@@ -8,7 +8,7 @@ public class MedicationRequestDTO
     public string? PrescriptionTypeCode { get; set; }
     public string? PrescriptionTypeDisplay { get; set; }
     public string? CrossCareIdentifier { get; set; }
-    public string GroupIdentifier { get; set; }
+    public string? GroupIdentifier { get; set; }
     public string? Status { get; set; }
     public string? Intent { get; set; }
     public MedicationDTO Medication { get; set; }

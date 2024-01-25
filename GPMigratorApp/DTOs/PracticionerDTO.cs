@@ -1,6 +1,6 @@
 namespace GPMigratorApp.DTOs;
 
-public class PracticionerDTO
+public class PracticionerDTO : OutboundRelationship
 {
     public PracticionerDTO()
     {

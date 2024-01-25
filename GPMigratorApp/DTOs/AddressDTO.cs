@@ -21,6 +21,7 @@ public class AddressDTO
             To = address.End();
         }
     }
+    public Guid Id { get; set; }
     public Hl7.Fhir.Model.Address.AddressUse? Use{ get; set; }
     public string? HouseNameFlatNumber { get; set; }
     public string? NumberAndStreet { get; set; }

@@ -34,7 +34,7 @@ public class GPConnectMedicationRequest : MedicationRequest
         dto.PrescriptionTypeCode = PrescriptionType?.Code;
         dto.PrescriptionTypeDisplay = PrescriptionType?.Display;
         dto.CrossCareIdentifier = CrossCareIdentifier;
-        dto.GroupIdentifier = GroupIdentifier.Value;
+        dto.GroupIdentifier = GroupIdentifier?.Value;
         dto.Status = Status.ToString();
         dto.Intent = Intent.ToString();
         dto.PatientGuid = Patient;

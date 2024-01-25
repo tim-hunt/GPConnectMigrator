@@ -26,6 +26,7 @@ namespace GPConnect.Provider.AcceptanceTests.Http
         public List<Slot> Slots => GetResources<Slot>(ResourceType.Slot);
         public List<Appointment> Appointments => GetResources<Appointment>(ResourceType.Appointment);
         public List<Schedule> Schedules => GetResources<Schedule>(ResourceType.Schedule);
+        public List<Observation> Observations => GetResources<Observation>(ResourceType.Observation);
         public List<CapabilityStatement> CapabilityStatements => GetResources<CapabilityStatement>(ResourceType.CapabilityStatement);
         public IEnumerable<GpConnectAllergyIntolerance> AllergyIntolerances => GetResources<AllergyIntolerance>(ResourceType.AllergyIntolerance).Select(x => new GpConnectAllergyIntolerance(x, this));
         public IEnumerable<GPConnectMedication> Medications => GetResources<Medication>(ResourceType.Medication).Select(x => new GPConnectMedication(x, this));
@@ -35,7 +36,7 @@ namespace GPConnect.Provider.AcceptanceTests.Http
         public List<EpisodeOfCare> EpisodesOfCare => GetResources<EpisodeOfCare>(ResourceType.EpisodeOfCare);
         public IEnumerable<EncounterDTO> Encounters => GetResources<Encounter>(ResourceType.Encounter).Select(x=> new GPConnectEncounter(x, this).GetDTO());
         public IEnumerable<OrganizationDTO> Organizations => GetResources<Organization>(ResourceType.Organization).Select(x=> new GPConnectOrganization(x).GetDTO());
-        public List<List> Lists => GetResources<List>(ResourceType.List);
+                public List<List> Lists => GetResources<List>(ResourceType.List);
         public IEnumerable<PracticionerDTO> Practitioners => GetResources<Practitioner>(ResourceType.Practitioner).Select(x=> new GPConnectPracticioner(x,Organizations).GetDTO());
 
         private List<T> GetResources<T>(ResourceType resourceType) where T : Resource

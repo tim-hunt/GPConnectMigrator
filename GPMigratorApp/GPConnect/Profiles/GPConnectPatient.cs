@@ -49,6 +49,8 @@ public class GPConnectPatient : Patient
     
     public DateTime? FirstRegistered
     {
+     
+        
         get
         {
             var registration = this.Extension.FirstOrDefault(x => x.Url == "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-RegistrationDetails-1");
@@ -77,9 +79,8 @@ public class GPConnectPatient : Patient
         get
         {
             var verified = NHSNumber?.Extension.FirstOrDefault(x => x.Url == "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-NHSNumberVerificationStatus-1");
-            var value = (CodeableConcept) verified?.Value;
+            var value = verified?.Value as CodeableConcept;
             return value?.Coding.FirstOrDefault();
-          
         }
     }
     
@@ -88,7 +89,7 @@ public class GPConnectPatient : Patient
         get
         {
             var ethnicity = Extension.FirstOrDefault(x => x.Url == "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-EthnicCategory-1");
-            var value = (CodeableConcept) ethnicity?.Value;
+            var value = ethnicity?.Value as CodeableConcept;
             return value?.Coding.FirstOrDefault();
         }
     }
@@ -98,7 +99,7 @@ public class GPConnectPatient : Patient
         get
         {
             var communication = Extension.FirstOrDefault(x => x.Url == "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-NHSCommunication-1");
-            var value = (CodeableConcept) communication?.Extension?.FirstOrDefault(x=> x.Url == "language")?.Value;
+            var value = communication?.Extension?.FirstOrDefault(x=> x.Url == "language")?.Value as CodeableConcept;
             return value?.Coding.FirstOrDefault();
         }
     }
@@ -108,7 +109,7 @@ public class GPConnectPatient : Patient
         get
         {
             var communication = Extension.FirstOrDefault(x => x.Url == "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-NHSCommunication-1");
-            var value = (CodeableConcept) communication?.Extension?.FirstOrDefault(x=> x.Url == "modeOfCommunication")?.Value;
+            var value = communication?.Extension?.FirstOrDefault(x=> x.Url == "modeOfCommunication")?.Value as CodeableConcept;
             return value?.Coding.FirstOrDefault();
         }
     }
@@ -118,7 +119,7 @@ public class GPConnectPatient : Patient
         get
         {
             var communication = Extension.FirstOrDefault(x => x.Url == "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-NHSCommunication-1");
-            var value = (CodeableConcept) communication?.Extension?.FirstOrDefault(x=> x.Url == "communicationProficiency")?.Value;
+            var value = communication?.Extension?.FirstOrDefault(x=> x.Url == "communicationProficiency")?.Value as CodeableConcept;
             return value?.Coding.FirstOrDefault();
         }
     }
@@ -129,11 +130,7 @@ public class GPConnectPatient : Patient
         {
             var communication = Extension.FirstOrDefault(x => x.Url == "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-NHSCommunication-1");
             var value =  communication?.Extension?.FirstOrDefault(x=> x.Url == "interpreterRequired")?.Value;
-            if (value is not null)
-            {
-                return (bool)value.FirstOrDefault().Value;
-            }
-            return null;
+            return (bool?) value?.FirstOrDefault().Value;
         }
     }
     
@@ -144,12 +141,8 @@ public class GPConnectPatient : Patient
         {
             var religion = Extension.FirstOrDefault(x => x.Url == "https://fhir.nhs.uk/STU3/StructureDefinition/patient-religion");
             var child = religion?.FirstOrDefault(x=> x.Key == "valueCodeableConcept");
-            if (child is not null)
-            {
-                var value = (CodeableConcept) child.Value.Value;
-                return value.Coding.FirstOrDefault();
-            }
-            return null;
+            var value = child?.Value as CodeableConcept;
+            return value?.Coding.FirstOrDefault();
         }
     }
     
