@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>GPData</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{0850bc68-942d-4137-a140-20950d6cfd12}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql160DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>GPData</RootNamespace>
+    <AssemblyName>GPData</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Tables\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\ActivityDefinition.sql" />
+    <Build Include="dbo\Tables\Address.sql" />
+    <Build Include="dbo\Tables\AllergyIntollerance.sql" />
+    <Build Include="dbo\Tables\Appointment.sql" />
+    <Build Include="dbo\Tables\Appointment_Participant.sql" />
+    <Build Include="dbo\Tables\Composition.sql" />
+    <Build Include="dbo\Tables\Condition.sql" />
+    <Build Include="dbo\Tables\Condition_Evidence.sql" />
+    <Build Include="dbo\Tables\Condition_RelatedClinicalConditions.sql" />
+    <Build Include="dbo\Tables\Condition_RelatedProblems.sql" />
+    <Build Include="dbo\Tables\Contact.sql" />
+    <Build Include="dbo\Tables\Device.sql" />
+    <Build Include="dbo\Tables\DiagnosticReport.sql" />
+    <Build Include="dbo\Tables\Dosage.sql" />
+    <Build Include="dbo\Tables\Encounter.sql" />
+    <Build Include="dbo\Tables\Entity.sql" />
+    <Build Include="dbo\Tables\EntityType.sql" />
+    <Build Include="dbo\Tables\Equipment.sql" />
+    <Build Include="dbo\Tables\Identifier.sql" />
+    <Build Include="dbo\Tables\Immunization.sql" />
+    <Build Include="dbo\Tables\Location.sql" />
+    <Build Include="dbo\Tables\Medication.sql" />
+    <Build Include="dbo\Tables\MedicationDispenseRequest.sql" />
+    <Build Include="dbo\Tables\MedicationRequest.sql" />
+    <Build Include="dbo\Tables\MedicationStatement.sql" />
+    <Build Include="dbo\Tables\Observation.sql" />
+    <Build Include="dbo\Tables\Organization.sql" />
+    <Build Include="dbo\Tables\Participant.sql" />
+    <Build Include="dbo\Tables\Patient.sql" />
+    <Build Include="dbo\Tables\Patient_Address.sql" />
+    <Build Include="dbo\Tables\Practicioner.sql" />
+    <Build Include="dbo\Tables\Practicioner_Address.sql" />
+    <Build Include="dbo\Tables\ProcedureRequest.sql" />
+    <Build Include="dbo\Tables\Qualification.sql" />
+    <Build Include="dbo\Tables\ReferralRequest.sql" />
+    <Build Include="dbo\Tables\ReferralRequest_BasedOn.sql" />
+    <Build Include="dbo\Tables\ReferralRequest_ReasonReference.sql" />
+    <Build Include="dbo\Tables\ReferralRequest_RelevantHistory.sql" />
+    <Build Include="dbo\Tables\ReferralRequest_Replaces.sql" />
+    <Build Include="dbo\Tables\ReferralRequest_SupportingInfo.sql" />
+    <Build Include="dbo\Tables\Schedule.sql" />
+    <Build Include="dbo\Tables\Schedule_Particpant.sql" />
+    <Build Include="dbo\Tables\Slot.sql" />
+    <Build Include="dbo\Tables\Specimen.sql" />
+    <Build Include="dbo\Tables\StructureMap.sql" />
+    <Build Include="dbo\Tables\Timing.sql" />
+  </ItemGroup>
+</Project>

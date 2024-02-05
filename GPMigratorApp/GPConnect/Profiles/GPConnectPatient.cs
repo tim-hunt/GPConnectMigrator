@@ -21,10 +21,10 @@ public class GPConnectPatient : Patient
     public PatientDTO GetDTO()
     {
         var dto = new PatientDTO();
-        dto.PatientGuid = this.Id;
+        dto.PatientId = this.Id;
         dto.OrganisationGuid = ReferenceHelper.GetId(this.ManagingOrganization.Reference);
         dto.UsualGpUserInRoleGuid = ReferenceHelper.GetId(GeneralPractitioner.FirstOrDefault().Reference);
-        dto.Sex = Gender?.ToString();
+        dto.Gender = Gender?.ToString();
         dto.Title = Name[0].Prefix.FirstOrDefault();
         dto.GivenName = Name[0].GivenElement.First().Value;
         dto.MiddleNames = Name[0].GivenElement.Skip(1).Select(x=> x.Value);

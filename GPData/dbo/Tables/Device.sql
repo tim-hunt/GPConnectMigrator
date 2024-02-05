@@ -1,0 +1,26 @@
+﻿CREATE TABLE [dbo].[Device] (
+    [Id]           UNIQUEIDENTIFIER NOT NULL,
+    [Identifier]   UNIQUEIDENTIFIER NOT NULL,
+    [TypeCode]     NVARCHAR (255)   NULL,
+    [TypeDisplay]  NVARCHAR (255)   NULL,
+    [TypeSystem]   NVARCHAR (255)   NULL,
+    [TypeVersion]  NVARCHAR (255)   NULL,
+    [UserSelected] BIT              NULL,
+    [Manufacturer] NVARCHAR (255)   NULL,
+    [Model]        NVARCHAR (255)   NULL,
+    [Version]      NVARCHAR (255)   NULL,
+    [Owner]        UNIQUEIDENTIFIER NULL,
+    [Locations]    NVARCHAR (255)   NULL,
+    [Name]         NVARCHAR (255)   NULL,
+    [Telecom]      NVARCHAR (255)   NULL,
+    [Address]      UNIQUEIDENTIFIER NULL,
+    [PartOf]       UNIQUEIDENTIFIER NULL,
+    [Contact]      UNIQUEIDENTIFIER NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC),
+    CONSTRAINT [FK_Device_Address] FOREIGN KEY ([Address]) REFERENCES [dbo].[Address] ([Id]),
+    CONSTRAINT [FK_Device_Contact] FOREIGN KEY ([Contact]) REFERENCES [dbo].[Contact] ([Id]),
+    CONSTRAINT [FK_Device_Identifier] FOREIGN KEY ([Identifier]) REFERENCES [dbo].[Identifier] ([Id]),
+    CONSTRAINT [FK_Device_Owner] FOREIGN KEY ([Owner]) REFERENCES [dbo].[Organization] ([Id]),
+    CONSTRAINT [FK_Device_PartOf] FOREIGN KEY ([PartOf]) REFERENCES [dbo].[Organization] ([Id])
+);
+

@@ -17,6 +17,7 @@ public class GPConnectEncounter
     private Encounter _encounter;
     private EpisodeOfCare? _episodeOfCare;
     private IEnumerable<PracticionerDTO>? _practicioners;
+    private IEnumerable<PatientDTO>? _patients;
     public GPConnectEncounter(Encounter encounter, FhirResponse bundle)
     {
         _encounter = encounter;
@@ -32,7 +33,7 @@ public class GPConnectEncounter
             Identifier = DataIdentifier,
             Status = _encounter.Status.ToString(),
             Type = TypeText,
-            PatientGuid = Patient(),
+            Subject = Patient(),
             Performer = PrimaryPerformer(),
             Recorder = Recorder(),
             PeriodStart = DateTime.Parse(_encounter.Period.Start),
@@ -46,9 +47,11 @@ public class GPConnectEncounter
 
     public EpisodeOfCare? GetEpisodeOfCare => _episodeOfCare;
     
-    public string? Patient()
+    public PatientDTO? Patient()
     {
-        return ReferenceHelper.GetId(_encounter.Subject.Reference);
+        var patientId = ReferenceHelper.GetId(_encounter.Subject.Reference);
+        var patient = _patients.FirstOrDefault(x => x.PatientId == patientId);
+        return patient;
     }
     public PracticionerDTO? PrimaryPerformer()
     {

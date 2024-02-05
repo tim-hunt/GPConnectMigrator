@@ -24,7 +24,7 @@ public class EncounterDTO
     
     public PatientDTO Subject { get; set; }
     public EpisodeOfCareDTO EpisodeOfCare { get; set; }
-    public ReferralRequest
+    public List<ReferralRequest>? IncomingReferral { get; set; }
     public PracticionerDTO? Performer{ get; set; }
 
     public PracticionerDTO? Recorder { get; set; }
